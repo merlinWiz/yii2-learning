@@ -33,12 +33,10 @@ class Post extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['author_id', 'title'], 'required'],
-            [['author_id'], 'integer'],
-            [['title', 'content'], 'string'],
-            [['update_time', 'create_time'], 'safe'],
-            [['status'], 'string', 'max' => 20],
-            [['author_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['author_id' => 'id']],
+            ['title, content, status', 'required'],
+            ['title', 'length', 'max' => 128],
+            ['status', 'in', 'range' => [1,2,3]],
+            ['title, status, safe', 'ob' => 'search'],
         ];
     }
 
