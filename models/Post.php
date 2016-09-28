@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "post".
@@ -39,7 +40,7 @@ class Post extends \yii\db\ActiveRecord
             [['title', 'status'], 'safe'],
         ];
     }
-
+    
     /**
      * @inheritdoc
      */
@@ -62,5 +63,10 @@ class Post extends \yii\db\ActiveRecord
     public function getAuthor()
     {
         return $this->hasOne(User::className(), ['id' => 'author_id']);
+    }
+    
+    public function getUrl()
+    {
+	    return Url::to(['post/view', 'title' => $this->title]);
     }
 }
