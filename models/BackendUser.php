@@ -57,7 +57,7 @@ class BackendUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInter
     
     public function validatePassword($password)
     {
-	    return $this->password === $password;
+	    return password_verify($password, $this->password);
     }
     
 
