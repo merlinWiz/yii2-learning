@@ -16,7 +16,7 @@ use Yii;
  *
  * @property Post[] $posts
  */
-class User extends \yii\db\ActiveRecord
+class BackendUser extends \yii\db\ActiveRecord implements yii\web\IdentityInterface
 {
     /**
      * @inheritdoc
@@ -25,6 +25,42 @@ class User extends \yii\db\ActiveRecord
     {
         return 'user';
     }
+    
+    public static function findIdentity($id)
+    {
+	    return static::findOne($id);
+    }
+    
+    public static function findIdentityByAccessToken($token, $type - null)
+    {
+	    throw new NotSupportedException();
+    }
+    
+    public function getId()
+    {
+	    return $this->id;
+    }
+    
+    public function getAuthKey()
+    {
+	    return $this->authKey;
+    }
+    
+    public function validateAuthKey($authKey)
+    {
+	    return $this->getAuthKey() === $authKey;
+    }
+    
+    public static function findByUsername($username)
+    {
+	    return self::findOne(['username' => $username]);
+    }
+    
+    public function validatePassword($password)
+    {
+	    return $this->password === $password;
+    }
+    
 
     /**
      * @inheritdoc
@@ -33,7 +69,7 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             [['username', 'password', 'profile'], 'string', 'max' => 60],
-            [['email', 'salt'], 'string', 'max' => 100],
+            [['email', 'authKey'], 'string', 'max' => 100],
         ];
     }
 
@@ -47,7 +83,7 @@ class User extends \yii\db\ActiveRecord
             'username' => 'Username',
             'password' => 'Password',
             'email' => 'Email',
-            'salt' => 'Salt',
+            'authKey' => 'AuthKey',
             'profile' => 'Profile',
         ];
     }
