@@ -16,7 +16,7 @@ $config = [
         ],
         'user' => [
             'identityClass' => 'app\models\BackendUser',
-            'enableAutoLogin' => true,
+            'enableAutoLogin' => false,
             'enableSession' => true,
         ],
         'errorHandler' => [

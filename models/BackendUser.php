@@ -11,12 +11,11 @@ use Yii;
  * @property string $username
  * @property string $password
  * @property string $email
- * @property string $salt
  * @property string $profile
  *
  * @property Post[] $posts
  */
-class BackendUser extends \yii\db\ActiveRecord implements yii\web\IdentityInterface
+class BackendUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
     /**
      * @inheritdoc
@@ -31,7 +30,7 @@ class BackendUser extends \yii\db\ActiveRecord implements yii\web\IdentityInterf
 	    return static::findOne($id);
     }
     
-    public static function findIdentityByAccessToken($token, $type - null)
+    public static function findIdentityByAccessToken($token, $type = null)
     {
 	    throw new NotSupportedException();
     }
@@ -43,12 +42,12 @@ class BackendUser extends \yii\db\ActiveRecord implements yii\web\IdentityInterf
     
     public function getAuthKey()
     {
-	    return $this->authKey;
+	    throw new NotSupportedException();
     }
     
     public function validateAuthKey($authKey)
     {
-	    return $this->getAuthKey() === $authKey;
+	    throw new NotSupportedException();
     }
     
     public static function findByUsername($username)
@@ -69,7 +68,7 @@ class BackendUser extends \yii\db\ActiveRecord implements yii\web\IdentityInterf
     {
         return [
             [['username', 'password', 'profile'], 'string', 'max' => 60],
-            [['email', 'authKey'], 'string', 'max' => 100],
+            [['email'], 'string', 'max' => 100],
         ];
     }
 
@@ -83,7 +82,6 @@ class BackendUser extends \yii\db\ActiveRecord implements yii\web\IdentityInterf
             'username' => 'Username',
             'password' => 'Password',
             'email' => 'Email',
-            'authKey' => 'AuthKey',
             'profile' => 'Profile',
         ];
     }
