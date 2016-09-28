@@ -17,7 +17,7 @@ class m160926_101253_create_post_table extends Migration
             'author_id' => $this->bigInteger(20)->notNull(),
             'title' => $this->text()->notNull(),
             'content' => $this->text(),
-            'status' => $this->string(20),
+            'status' => $this->integer(),
             'update_time' => 'timestamp on update current_timestamp',
             'create_time' => $this->timestamp()->defaultValue(0),
         ]);
