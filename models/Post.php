@@ -20,6 +20,10 @@ use yii\helpers\Url;
  */
 class Post extends \yii\db\ActiveRecord
 {
+	const STATUS_DRAFT=1;
+	const STATUS_PUBLISHED=2;
+	const STATUS_ARCHIVED=3;
+	
     /**
      * @inheritdoc
      */
@@ -34,7 +38,7 @@ class Post extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'content', 'status'], 'required'],
+            [['title', 'content', 'status', 'author_id'], 'required'],
             ['title', 'string', 'length' => [2, 128]],
             ['status', 'in', 'range' => [1,2,3]],
             [['title', 'status'], 'safe'],
