@@ -23,8 +23,23 @@ class PostController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
+                    'create' => ['POST'],
                     'delete' => ['POST'],
                 ],
+            ],
+            'access' = [
+	            'class' => \yii\filters\AccessControl::className(),
+	            'only' => ['create', 'update'],
+	            'rules' => [
+		            [
+			            'allow' => false,
+			            'verbs' => ['POST'],
+		            ],
+		            [
+			            'allow' => true,
+			            'roles' => ['@'],
+		            ],
+	            ],
             ],
         ];
     }
