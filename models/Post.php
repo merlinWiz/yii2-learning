@@ -73,4 +73,19 @@ class Post extends \yii\db\ActiveRecord
     {
 	    return Url::to(['post/view', 'title' => $this->title]);
     }
+    
+    public function beforeSave($insert)
+    {
+	    if (parent::beforeSave($insert)) {
+		    if($this->isNewRecord) {
+			    $this->create_time=$this->update_time=time();
+			    $this->author_id=Yii::app()->user->id;
+		    } else {
+			    $this->update_time=time();
+		    }
+		    return true;
+	    } else {
+		    return false;
+	    }
+    }
 }
