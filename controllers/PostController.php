@@ -129,7 +129,13 @@ class PostController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Post::findOne($id)) !== null) {
+	    $condition = ['id' => $id];
+	    
+	    if(Yii::$app->user->isGuest) {
+		    $condition['status'] = [Post::STATUS_PUBLISHED, Post::STATUS_ARCHIVED];
+	    }
+	    
+        if (($model = Post::findOne($condition)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
