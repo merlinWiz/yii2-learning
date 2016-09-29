@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\models\Lookup;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Post */
@@ -12,17 +13,11 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'author_id')->textInput() ?>
-
     <?= $form->field($model, 'title')->textarea(['rows' => 6]) ?>
 
     <?= $form->field($model, 'content')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'status')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'update_time')->textInput() ?>
-
-    <?= $form->field($model, 'create_time')->textInput() ?>
+    <?= Html::activeDropDownList($model, 'status', Lookup::items('PostStatus')) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
