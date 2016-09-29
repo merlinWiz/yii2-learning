@@ -17,7 +17,7 @@ use app\models\Lookup;
 
     <?= $form->field($model, 'content')->textarea(['rows' => 6]) ?>
 
-    <?= Html::activeDropDownList($model, 'status', Lookup::items('PostStatus')) ?>
+    <?= $form->field($model, 'status')->dropDownList(Lookup::items('PostStatus')) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
