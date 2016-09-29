@@ -49,8 +49,13 @@ class PostController extends Controller
      */
     public function actionIndex()
     {
+	    $condition = [];
+	    
+	    if(Yii::$app->user->isGuest) {
+		    $condition['status'] = [Post::STATUS_PUBLISHED, Post::STATUS_ARCHIVED];
+	    }
         $dataProvider = new ActiveDataProvider([
-            'query' => Post::find(),
+            'query' => Post::find()->where($condition)->orderBy('update_time'),
         ]);
 
         return $this->render('index', [
