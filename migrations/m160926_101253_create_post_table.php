@@ -36,6 +36,14 @@ class m160926_101253_create_post_table extends Migration
 	        'id',
 	        'CASCADE'
         );
+        
+        $this->insert('post', [
+	        'id' => 1,
+	        'author_id' => 1,
+	        'title' => 'Hello World!',
+	        'content' => 'This is your first post.',
+	        'status' => 1,
+        ]);
     }
 
     /**
