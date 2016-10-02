@@ -14,7 +14,7 @@ class m160926_090629_create_user_table extends Migration
     {
         $this->createTable('user', [
    
-           'id' => $this->bigPrimaryKey(20),
+           'id' => $this->PrimaryKey()->notNull()->unsigned(),
            'username' => $this->string(60),
            'password' => $this->string(60),
            'email' => $this->string(100),

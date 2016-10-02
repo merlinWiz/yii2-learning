@@ -10,14 +10,14 @@ class m160926_130415_create_lookup_table extends Migration
     /**
      * @inheritdoc
      */
-    public function up()
+    public function safeUp()
     {
         $this->createTable('lookup', [
-            'id' => $this->bigPrimaryKey(20),
+            'id' => $this->PrimaryKey()->notNull()->unsigned(),
             'name' => $this->string(20),
-            'code' => $this->integer(),
+            'code' => $this->integer()->unsigned(),
             'type' => $this->string(20),
-            'position' => $this->integer(),
+            'position' => $this->integer()->unsigned(),
         ]);
         
         $this->insert('lookup', [
@@ -48,7 +48,7 @@ class m160926_130415_create_lookup_table extends Migration
     /**
      * @inheritdoc
      */
-    public function down()
+    public function safeDown()
     {
         $this->dropTable('lookup');
     }

@@ -13,13 +13,13 @@ class m160926_101253_create_post_table extends Migration
     public function safeUp()
     {
         $this->createTable('post', [
-            'id' => $this->bigPrimaryKey(20),
-            'author_id' => $this->bigInteger(20)->notNull(),
+            'id' => $this->PrimaryKey()->notNull()->unsigned(),
+            'author_id' => $this->integer()->notNull()->unsigned(),
             'title' => $this->text()->notNull(),
             'content' => $this->text(),
-            'status' => $this->integer(),
-            'update_time' => 'timestamp on update current_timestamp',
-            'create_time' => $this->timestamp()->defaultValue(0),
+            'status' => $this->integer()->unsigned(),
+            'update_time' => 'datetime on update current_timestamp',
+            'create_time' => 'datetime default current_timestamp',
         ]);
         
         $this->createIndex(
