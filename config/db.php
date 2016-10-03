@@ -5,6 +5,6 @@ return [
     'dsn' => 'mysql:host=localhost;dbname=mbdou',
     'emulatePrepare' => true,
     'username' => 'root',
-    'password' => 'energy52',
+    'password' => '',
     'charset' => 'utf8',
 ];
