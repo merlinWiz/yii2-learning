@@ -31,10 +31,6 @@ class PostController extends Controller
 	            'only' => ['create', 'update'],
 	            'rules' => [
 		            [
-			            'allow' => false,
-			            'verbs' => ['POST'],
-		            ],
-		            [
 			            'allow' => true,
 			            'roles' => ['@'],
 		            ],
@@ -56,6 +52,9 @@ class PostController extends Controller
 	    }
         $dataProvider = new ActiveDataProvider([
             'query' => Post::find()->where($condition)->orderBy('update_time'),
+            'pagination' => [
+	            'pagesize' => 1,
+            ],
         ]);
 
         return $this->render('index', [
@@ -83,7 +82,7 @@ class PostController extends Controller
     public function actionCreate()
     {
         $model = new Post();
-
+		
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
