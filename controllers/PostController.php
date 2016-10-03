@@ -28,7 +28,7 @@ class PostController extends Controller
             ],
             'access' => [
 	            'class' => \yii\filters\AccessControl::className(),
-	            'only' => ['admin', 'create', 'update'],
+	            'only' => ['admin', 'create', 'update', 'delete'],
 	            'rules' => [
 		            [
 			            'allow' => true,
@@ -65,7 +65,7 @@ class PostController extends Controller
             'query' => Post::find(),
             'sort' => [
 	            'defaultOrder' => [
-		            'create_time' => SORT_DESC,
+		            'id' => SORT_DESC,
 	            ],
             ],
             'pagination' => [
@@ -137,7 +137,7 @@ class PostController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['admin']);
     }
 
     /**
