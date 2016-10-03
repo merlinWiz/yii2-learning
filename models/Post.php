@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\helpers\Url;
 
+
 /**
  * This is the model class for table "post".
  *
@@ -38,7 +39,7 @@ class Post extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'content', 'status', 'author_id'], 'required'],
+            [['title', 'content', 'status'], 'required'],
             ['title', 'string', 'length' => [2, 128]],
             ['status', 'in', 'range' => [1,2,3]],
             [['title', 'status'], 'safe'],
@@ -78,10 +79,7 @@ class Post extends \yii\db\ActiveRecord
     {
 	    if (parent::beforeSave($insert)) {
 		    if($this->isNewRecord) {
-			    $this->create_time=$this->update_time=time();
-			    $this->author_id=Yii::app()->user->id;
-		    } else {
-			    $this->update_time=time();
+			    $this->author_id=Yii::$app->user->getId();
 		    }
 		    return true;
 	    } else {
