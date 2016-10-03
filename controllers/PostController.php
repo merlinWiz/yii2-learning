@@ -28,7 +28,7 @@ class PostController extends Controller
             ],
             'access' => [
 	            'class' => \yii\filters\AccessControl::className(),
-	            'only' => ['create', 'update'],
+	            'only' => ['admin', 'create', 'update'],
 	            'rules' => [
 		            [
 			            'allow' => true,
@@ -44,20 +44,36 @@ class PostController extends Controller
      * @return mixed
      */
     public function actionIndex()
-    {
-	    $condition = [];
-	    
-	    if(Yii::$app->user->isGuest) {
-		    $condition['status'] = [Post::STATUS_PUBLISHED, Post::STATUS_ARCHIVED];
-	    }
+    {	    
+		$condition['status'] = [Post::STATUS_PUBLISHED, Post::STATUS_ARCHIVED];
+		
         $dataProvider = new ActiveDataProvider([
             'query' => Post::find()->where($condition)->orderBy('update_time'),
             'pagination' => [
-	            'pagesize' => 1,
+	            'pagesize' => 5,
             ],
         ]);
 
         return $this->render('index', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionAdmin()
+    {	    		
+        $dataProvider = new ActiveDataProvider([
+            'query' => Post::find(),
+            'sort' => [
+	            'defaultOrder' => [
+		            'create_time' => SORT_DESC,
+	            ],
+            ],
+            'pagination' => [
+	            'pagesize' => 5,
+            ],
+        ]);
+
+        return $this->render('admin', [
             'dataProvider' => $dataProvider,
         ]);
     }
