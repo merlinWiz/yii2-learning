@@ -43,14 +43,21 @@ AppAsset::register($this);
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post', ['class' => 'navbar-form'])
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link']
-                )
-                . Html::endForm()
-                . '</li>'
+	            [
+	            	'label' => 'Dashboard',
+					'items' => [
+						['label' => 'Posts', 'url' => ['/post/admin']],
+						'<li class="divider"></li>',
+		                '<li>'
+		                . Html::beginForm(['/site/logout'], 'post', ['class' => ''])
+		                . Html::submitButton(
+		                    'Logout (' . Yii::$app->user->identity->username . ')',
+		                    ['class' => '']
+		                )
+		                . Html::endForm()
+		                . '</li>'
+					],
+	            ]
             )
         ],
     ]);
