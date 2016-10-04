@@ -39,7 +39,7 @@ class Post extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'content', 'status'], 'required'],
+            [['title', 'content', 'status', 'author_id'], 'required'],
             ['title', 'string', 'length' => [2, 128]],
             ['status', 'in', 'range' => [1,2,3]],
             [['title', 'status'], 'safe'],
@@ -75,15 +75,14 @@ class Post extends \yii\db\ActiveRecord
 	    return Url::to(['post/view', 'title' => $this->title]);
     }
     
-    public function beforeSave($insert)
+    public function beforeValidate()
     {
-	    if (parent::beforeSave($insert)) {
+	    if (parent::beforeValidate()) {
 		    if($this->isNewRecord) {
 			    $this->author_id=Yii::$app->user->getId();
 		    }
 		    return true;
-	    } else {
-		    return false;
 	    }
+		return false;
     }
 }
