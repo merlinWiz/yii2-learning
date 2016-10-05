@@ -1,19 +1,19 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\blog\controllers\admin;
 
 use Yii;
-use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
-use app\models\Post;
+use app\modules\blog\models\Post;
 
 /**
  * PostController implements the CRUD actions for Post model.
  */
-class PostController extends Controller
+class PostController extends \app\modules\blog\controllers\PostController
 {
     /**
      * @inheritdoc
@@ -29,7 +29,7 @@ class PostController extends Controller
             ],
             'access' => [
 	            'class' => AccessControl::className(),
-	            'only' => ['admin', 'create', 'update', 'delete'],
+	            'only' => ['index', 'create', 'update', 'delete'],
 	            'rules' => [
 		            [
 			            'allow' => true,
@@ -44,23 +44,8 @@ class PostController extends Controller
      * Lists all Post models.
      * @return mixed
      */
+
     public function actionIndex()
-    {	    
-		$condition['status'] = [Post::STATUS_PUBLISHED, Post::STATUS_ARCHIVED];
-		
-        $dataProvider = new ActiveDataProvider([
-            'query' => Post::find()->where($condition)->orderBy('update_time'),
-            'pagination' => [
-	            'pagesize' => 5,
-            ],
-        ]);
-
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    public function actionAdmin()
     {	    		
         $dataProvider = new ActiveDataProvider([
             'query' => Post::find(),
@@ -74,7 +59,7 @@ class PostController extends Controller
             ],
         ]);
 
-        return $this->render('admin', [
+        return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -148,18 +133,4 @@ class PostController extends Controller
      * @return Post the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
-	    $condition = ['id' => $id];
-	    
-	    if(Yii::$app->user->isGuest) {
-		    $condition['status'] = [Post::STATUS_PUBLISHED, Post::STATUS_ARCHIVED];
-	    }
-	    
-        if (($model = Post::findOne($condition)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
 }

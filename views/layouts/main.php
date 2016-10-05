@@ -37,7 +37,7 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'Posts', 'url' => ['/post/index']],
+            ['label' => 'Blog', 'url' => ['/blog/']],
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest ? (
@@ -46,7 +46,7 @@ AppAsset::register($this);
 	            [
 	            	'label' => 'Dashboard',
 					'items' => [
-						['label' => 'Posts', 'url' => ['/post/admin']],
+						['label' => 'Post manager', 'url' => ['/blog/admin/post']],
 						'<li class="divider"></li>',
 		                '<li>'
 		                . Html::beginForm(['/admin/logout'], 'post', ['class' => ''])

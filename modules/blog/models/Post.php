@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\modules\blog\models;
 
 use Yii;
 use yii\helpers\Url;
