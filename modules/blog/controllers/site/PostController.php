@@ -18,7 +18,7 @@ class PostController extends \app\modules\blog\controllers\PostController
      */
     public function actionIndex()
     {	    
-		$condition['status'] = [Post::STATUS_PUBLISHED, Post::STATUS_ARCHIVED];
+		$condition['status'] = [Post::STATUS_PUBLISHED];
 		
         $dataProvider = new ActiveDataProvider([
             'query' => Post::find()->where($condition)->orderBy('update_time'),

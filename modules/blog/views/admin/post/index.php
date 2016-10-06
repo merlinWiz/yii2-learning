@@ -18,6 +18,10 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Post', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
+    <p>
+        <?= Html::a('View deleted', ['index-deleted'], ['class' => 'btn btn-success']) ?>
+    </p>
+
     <?php Pjax::begin(); ?>
 
     <?= GridView::widget([

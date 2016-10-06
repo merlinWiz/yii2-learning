@@ -40,10 +40,35 @@ class m160926_101253_create_post_table extends Migration
         $this->insert('post', [
 	        'id' => 1,
 	        'author_id' => 1,
-	        'title' => 'Hello World!',
-	        'content' => 'This is your first post.',
+	        'title' => 'First post',
+	        'content' => 'This is your content.',
 	        'status' => 1,
         ]);
+
+        $this->insert('post', [
+	        'id' => 2,
+	        'author_id' => 1,
+	        'title' => 'Second post',
+	        'content' => 'This is your content.',
+	        'status' => 2,
+        ]);
+
+        $this->insert('post', [
+	        'id' => 3,
+	        'author_id' => 1,
+	        'title' => 'Third post',
+	        'content' => 'This is your content.',
+	        'status' => 3,
+        ]);
+
+        $this->insert('post', [
+	        'id' => 4,
+	        'author_id' => 1,
+	        'title' => 'Fourth post',
+	        'content' => 'This is your content.',
+	        'status' => 4,
+        ]);
+
     }
 
     /**

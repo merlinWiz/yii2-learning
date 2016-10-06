@@ -38,10 +38,18 @@ class m160926_130415_create_lookup_table extends Migration
 
         $this->insert('lookup', [
 	        'id' => 3,
-	        'name' => 'Archived',
+	        'name' => 'Not published',
 	        'code' => 3,
 	        'type' => 'PostStatus',
 	        'position' => 3
+        ]);
+
+        $this->insert('lookup', [
+	        'id' => 4,
+	        'name' => 'Deleted',
+	        'code' => 4,
+	        'type' => 'PostStatus',
+	        'position' => 4
         ]);
     }
 

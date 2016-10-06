@@ -47,7 +47,26 @@ class PostController extends \app\modules\blog\controllers\PostController
     public function actionIndex()
     {	    		
         $dataProvider = new ActiveDataProvider([
-            'query' => Post::find(),
+            'query' => Post::find()->where(['not', ['status' => Post::STATUS_DELETED]]),
+            'sort' => [
+	            'defaultOrder' => [
+		            'id' => SORT_DESC,
+	            ],
+            ],
+            'pagination' => [
+	            'pagesize' => 5,
+            ],
+        ]);
+
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionIndexDeleted()
+    {	    		
+        $dataProvider = new ActiveDataProvider([
+            'query' => Post::find()->where(['status' => Post::STATUS_DELETED]),
             'sort' => [
 	            'defaultOrder' => [
 		            'id' => SORT_DESC,
@@ -112,24 +131,27 @@ class PostController extends \app\modules\blog\controllers\PostController
         }
     }
 
+    public function actionDelete($id)
+    {
+	    $model = $this->findModel($id);
+	    $model->status = Post::STATUS_DELETED;
+	    $model->save();
+	    
+	    return $this->redirect(['admin/post']);
+    }
+
+
     /**
      * Deletes an existing Post model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * If deletion is successful, the browser will be redirected to the 'blog admin index' page.
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionFinalDelete($id)
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['admin']);
+        return $this->redirect(['admin/post']);
     }
-
-    /**
-     * Finds the Post model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Post the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+    
 }
