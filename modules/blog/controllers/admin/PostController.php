@@ -7,7 +7,6 @@ use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
-use yii\web\NotFoundHttpException;
 use app\modules\blog\models\Post;
 
 /**
