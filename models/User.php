@@ -15,7 +15,7 @@ use Yii;
  *
  * @property Post[] $posts
  */
-class BackendUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
+class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
     /**
      * @inheritdoc
