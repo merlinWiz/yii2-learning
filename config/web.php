@@ -23,6 +23,7 @@ $config = [
             'identityClass' => 'app\models\BackendUser',
             'enableAutoLogin' => false,
             'enableSession' => true,
+            'loginUrl' => ['admin/login'],
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
