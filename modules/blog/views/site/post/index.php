@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
 	            'attribute' => 'status',
-	            'value' => 'statusName.name'
+	            'value' => 'status.name'
             ],
 
 //             'status',

@@ -14,7 +14,7 @@ use app\models\Lookup;
  * @property integer $author_id
  * @property string $title
  * @property string $content
- * @property string $status
+ * @property string $status_code
  * @property string $update_time
  * @property string $create_time
  *
@@ -41,9 +41,9 @@ class Post extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'content', 'status', 'author_id'], 'required'],
+            [['title', 'content', 'status_code', 'author_id'], 'required'],
             ['title', 'string', 'length' => [2, 128]],
-            ['status', 'in', 'range' => [1,2,3,4]],
+            ['status_code', 'in', 'range' => [1,2,3,4]],
             [['title', 'status', 'author'], 'safe'],
         ];
     }
@@ -56,8 +56,10 @@ class Post extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'author_id' => 'Author ID',
+            'author' => 'Author',
             'title' => 'Title',
             'content' => 'Content',
+            'status_code' => 'Status Code',
             'status' => 'Status',
             'update_time' => 'Update Time',
             'create_time' => 'Create Time',
@@ -72,9 +74,9 @@ class Post extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'author_id']);
     }
         
-    public function getStatusName()
+    public function getStatus()
     {
-        return $this->hasOne(Lookup::className(), ['code' => 'status'])->andWhere(['type' => 'PostStatus']);
+        return $this->hasOne(Lookup::className(), ['code' => 'status_code'])->andWhere(['type' => 'PostStatus']);
     }
     
     public function getUrl()

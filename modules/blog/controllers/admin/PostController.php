@@ -47,7 +47,7 @@ class PostController extends \app\modules\blog\controllers\PostController
     public function actionIndex()
     {	    		
         $dataProvider = new ActiveDataProvider([
-            'query' => Post::find()->where(['not', ['status' => Post::STATUS_DELETED]]),
+            'query' => Post::find()->where(['not', ['status_code' => Post::STATUS_DELETED]]),
             'sort' => [
 	            'defaultOrder' => [
 		            'id' => SORT_DESC,
@@ -66,7 +66,7 @@ class PostController extends \app\modules\blog\controllers\PostController
     public function actionIndexDeleted()
     {	    		
         $dataProvider = new ActiveDataProvider([
-            'query' => Post::find()->where(['status' => Post::STATUS_DELETED]),
+            'query' => Post::find()->where(['status_code' => Post::STATUS_DELETED]),
             'sort' => [
 	            'defaultOrder' => [
 		            'id' => SORT_DESC,
@@ -134,7 +134,7 @@ class PostController extends \app\modules\blog\controllers\PostController
     public function actionDelete($id)
     {
 	    $model = $this->findModel($id);
-	    $model->status = Post::STATUS_DELETED;
+	    $model->status_code = Post::STATUS_DELETED;
 	    $model->save();
 	    
 	    return $this->redirect(['admin/post']);

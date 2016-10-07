@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
 	            'attribute' => 'status',
-	            'value' => 'statusName.name'
+	            'value' => 'status.name'
             ],
             'update_time',
             'create_time',
