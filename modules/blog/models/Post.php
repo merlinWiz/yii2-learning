@@ -4,7 +4,8 @@ namespace app\modules\blog\models;
 
 use Yii;
 use yii\helpers\Url;
-
+use app\models\User;
+use app\models\Lookup;
 
 /**
  * This is the model class for table "post".
@@ -43,7 +44,7 @@ class Post extends \yii\db\ActiveRecord
             [['title', 'content', 'status', 'author_id'], 'required'],
             ['title', 'string', 'length' => [2, 128]],
             ['status', 'in', 'range' => [1,2,3,4]],
-            [['title', 'status'], 'safe'],
+            [['title', 'status', 'author'], 'safe'],
         ];
     }
     
@@ -69,6 +70,11 @@ class Post extends \yii\db\ActiveRecord
     public function getAuthor()
     {
         return $this->hasOne(User::className(), ['id' => 'author_id']);
+    }
+    
+    public function getStatusName()
+    {
+        return $this->hasOne(Lookup::className(), ['code' => 'status'])->andWhere(['type' => 'PostStatus']);
     }
     
     public function getUrl()
