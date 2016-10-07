@@ -71,7 +71,7 @@ class Post extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'author_id']);
     }
-    
+        
     public function getStatusName()
     {
         return $this->hasOne(Lookup::className(), ['code' => 'status'])->andWhere(['type' => 'PostStatus']);
