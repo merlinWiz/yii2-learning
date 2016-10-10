@@ -8,6 +8,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 use app\modules\blog\models\Post;
+use app\modules\blog\models\PostSearch;
 
 /**
  * PostController implements the CRUD actions for Post model.
@@ -46,30 +47,12 @@ class PostController extends \app\modules\blog\controllers\PostController
 
     public function actionIndex()
     {	    		
-        $dataProvider = new ActiveDataProvider([
-            'query' => Post::find()->where(['not', ['status_code' => Post::STATUS_DELETED]]),
-            'sort' => [
-	            'defaultOrder' => [
-		            'id' => SORT_DESC,
-	            ],
-            ],
-            'pagination' => [
-	            'pagesize' => 5,
-            ],
-        ]);
-        
-        $dataProvider->sort->attributes['status'] = [
-	        'asc' => ['status_code' => SORT_ASC],
-	        'desc' => ['status_code' => SORT_DESC],
-        ];
-
-        $dataProvider->sort->attributes['author'] = [
-	        'asc' => ['author_id' => SORT_ASC],
-	        'desc' => ['author_id' => SORT_DESC],
-        ];
-
+		$searchModel = new PostSearch();
+		$dataProvider = $searchModel->search(Yii::$app->request->get());
+		
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
         ]);
     }
 

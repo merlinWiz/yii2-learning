@@ -26,12 +26,19 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
 //             'id',
 //             'author_id',
-            'title:ntext',
+            [
+	            'attribute' => 'title',
+	            'filterInputOptions' => [
+		            'class' => 'form-control',
+		        	'placeholder' => 'Поиск по названию...',    
+	            ], 
+            ],
             'content:ntext',
             [
 	            'attribute' => 'author',
