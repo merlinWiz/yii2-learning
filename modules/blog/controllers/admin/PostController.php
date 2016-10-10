@@ -155,6 +155,15 @@ class PostController extends \app\modules\blog\controllers\PostController
 	    return $this->redirect(['admin/post']);
     }
 
+    public function actionRestore($id)
+    {
+	    $model = $this->findModel($id);
+	    $model->status_code = Post::STATUS_NOT_PUBLISHED;
+	    $model->save();
+	    
+	    return $this->redirect(['admin/post']);
+    }
+
 
     /**
      * Deletes an existing Post model.
@@ -167,6 +176,13 @@ class PostController extends \app\modules\blog\controllers\PostController
         $this->findModel($id)->delete();
 
         return $this->redirect(['admin/post']);
+    }
+    
+    public function actionFinalDeleteAll()
+    {
+	    Post::deleteAll(['status_code' => Post::STATUS_DELETED]);
+
+        return $this->redirect(['admin/post/index-deleted']);
     }
     
 }

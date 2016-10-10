@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <p>
-        <?= Html::a('View deleted', ['index-deleted'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('View deleted', ['index-deleted'], ['class' => 'btn btn-default']) ?>
     </p>
 
     <?php Pjax::begin(); ?>
