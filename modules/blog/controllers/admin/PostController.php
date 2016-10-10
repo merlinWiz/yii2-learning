@@ -57,6 +57,16 @@ class PostController extends \app\modules\blog\controllers\PostController
 	            'pagesize' => 5,
             ],
         ]);
+        
+        $dataProvider->sort->attributes['status'] = [
+	        'asc' => ['status_code' => SORT_ASC],
+	        'desc' => ['status_code' => SORT_DESC],
+        ];
+
+        $dataProvider->sort->attributes['author'] = [
+	        'asc' => ['author_id' => SORT_ASC],
+	        'desc' => ['author_id' => SORT_DESC],
+        ];
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
