@@ -87,7 +87,12 @@ class PostController extends \app\modules\blog\controllers\PostController
             ],
         ]);
 
-        return $this->render('index', [
+        $dataProvider->sort->attributes['author'] = [
+	        'asc' => ['author_id' => SORT_ASC],
+	        'desc' => ['author_id' => SORT_DESC],
+        ];
+
+        return $this->render('indexDeleted', [
             'dataProvider' => $dataProvider,
         ]);
     }
