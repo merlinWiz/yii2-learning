@@ -58,7 +58,7 @@ class m160926_101253_create_post_table extends Migration
 	        'author_id' => 1,
 	        'title' => 'Third post',
 	        'content' => 'This is your content.',
-	        'status_code' => 3,
+	        'status_code' => 2,
         ]);
 
         $this->insert('post', [
@@ -66,7 +66,7 @@ class m160926_101253_create_post_table extends Migration
 	        'author_id' => 1,
 	        'title' => 'Fourth post',
 	        'content' => 'This is your content.',
-	        'status_code' => 4,
+	        'status_code' => 3,
         ]);
 
     }

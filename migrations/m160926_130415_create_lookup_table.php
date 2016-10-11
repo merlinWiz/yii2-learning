@@ -44,13 +44,6 @@ class m160926_130415_create_lookup_table extends Migration
 	        'position' => 3
         ]);
 
-        $this->insert('lookup', [
-	        'id' => 4,
-	        'name' => 'Deleted',
-	        'code' => 4,
-	        'type' => 'PostStatus',
-	        'position' => 4
-        ]);
     }
 
     /**

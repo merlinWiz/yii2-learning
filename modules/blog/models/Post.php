@@ -25,7 +25,6 @@ class Post extends \yii\db\ActiveRecord
 	const STATUS_DRAFT=1;
 	const STATUS_PUBLISHED=2;
 	const STATUS_NOT_PUBLISHED=3;
-	const STATUS_DELETED=4;
 	
     /**
      * @inheritdoc
@@ -43,7 +42,7 @@ class Post extends \yii\db\ActiveRecord
         return [
             [['title', 'content', 'status_code', 'author_id'], 'required'],
             ['title', 'string', 'length' => [2, 128]],
-            ['status_code', 'in', 'range' => [1,2,3,4]],
+            ['status_code', 'in', 'range' => [1,2,3]],
             [['title', 'status', 'author'], 'safe'],
         ];
     }

@@ -24,7 +24,7 @@ class PostSearch extends Post
     
     public function search($params)
     {
-	    $query = Post::find()->where(['not', ['status_code' => Post::STATUS_DELETED]]);
+	    $query = Post::find();
 	    
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

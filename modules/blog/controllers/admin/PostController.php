@@ -56,30 +56,6 @@ class PostController extends \app\modules\blog\controllers\PostController
         ]);
     }
 
-    public function actionIndexDeleted()
-    {	    		
-        $dataProvider = new ActiveDataProvider([
-            'query' => Post::find()->where(['status_code' => Post::STATUS_DELETED]),
-            'sort' => [
-	            'defaultOrder' => [
-		            'id' => SORT_DESC,
-	            ],
-            ],
-            'pagination' => [
-	            'pagesize' => 5,
-            ],
-        ]);
-
-        $dataProvider->sort->attributes['author'] = [
-	        'asc' => ['author_id' => SORT_ASC],
-	        'desc' => ['author_id' => SORT_DESC],
-        ];
-
-        return $this->render('indexDeleted', [
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
     /**
      * Displays a single Post model.
      * @param integer $id
@@ -129,24 +105,6 @@ class PostController extends \app\modules\blog\controllers\PostController
         }
     }
 
-    public function actionDelete($id)
-    {
-	    $model = $this->findModel($id);
-	    $model->status_code = Post::STATUS_DELETED;
-	    $model->save();
-	    
-	    return $this->redirect(['admin/post']);
-    }
-
-    public function actionRestore($id)
-    {
-	    $model = $this->findModel($id);
-	    $model->status_code = Post::STATUS_NOT_PUBLISHED;
-	    $model->save();
-	    
-	    return $this->redirect(['admin/post']);
-    }
-
 
     /**
      * Deletes an existing Post model.
@@ -154,18 +112,12 @@ class PostController extends \app\modules\blog\controllers\PostController
      * @param integer $id
      * @return mixed
      */
-    public function actionFinalDelete($id)
+    public function actionDelete($id)
     {
         $this->findModel($id)->delete();
 
         return $this->redirect(['admin/post']);
     }
     
-    public function actionFinalDeleteAll()
-    {
-	    Post::deleteAll(['status_code' => Post::STATUS_DELETED]);
-
-        return $this->redirect(['admin/post/index-deleted']);
-    }
     
 }

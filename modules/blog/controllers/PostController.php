@@ -24,7 +24,7 @@ class PostController extends Controller
 	    $condition = ['id' => $id];
 	    
 	    if(Yii::$app->user->isGuest) {
-		    $condition['status'] = [Post::STATUS_PUBLISHED, Post::STATUS_ARCHIVED];
+		    $condition['status'] = [Post::STATUS_PUBLISHED];
 	    }
 	    
         if (($model = Post::findOne($condition)) !== null) {
