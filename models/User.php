@@ -11,7 +11,6 @@ use Yii;
  * @property string $username
  * @property string $password
  * @property string $email
- * @property string $profile
  *
  * @property Post[] $posts
  */
@@ -67,8 +66,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'password', 'profile'], 'string', 'max' => 60],
-            [['email'], 'string', 'max' => 100],
+            [['username', 'password', 'firstname', 'lastname', 'email'], 'string', 'max' => 60],
         ];
     }
 
@@ -81,8 +79,9 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             'id' => 'ID',
             'username' => 'Username',
             'password' => 'Password',
+            'firstname' => 'First Name',
+            'lastname' => 'Last Name',
             'email' => 'Email',
-            'profile' => 'Profile',
         ];
     }
 
