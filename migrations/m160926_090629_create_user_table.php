@@ -24,11 +24,19 @@ class m160926_090629_create_user_table extends Migration
         
         $this->insert('user', [
 	        'id' => 1,
-	        'username' => 'admin',
+	        'username' => 'dev',
+	        'password' => '$2y$10$gdB.xsoyeWg4xm7XR.HkAeq4I54m6rHH3xCJXxJGDxtkF7AsqGtkO',
+	        'email' => 'egorkryazh@gmail.com',
+        ]);
+
+        $this->insert('user', [
+	        'id' => 2,
+	        'username' => 'editor',
 	        'password' => '$2y$10$gdB.xsoyeWg4xm7XR.HkAeq4I54m6rHH3xCJXxJGDxtkF7AsqGtkO',
 	        'email' => 'egorkryazh@gmail.com',
         ]);
     }
+
 
     /**
      * @inheritdoc

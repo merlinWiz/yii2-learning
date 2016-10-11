@@ -47,6 +47,7 @@ AppAsset::register($this);
 	            	'label' => 'Dashboard',
 					'items' => [
 						['label' => 'Post manager', 'url' => ['/blog/admin/post']],
+						['label' => 'Пользователи', 'url' => ['/user/index']],
 						'<li class="divider"></li>',
 		                '<li>'
 		                . Html::beginForm(['/admin/logout'], 'post', ['class' => ''])

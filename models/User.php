@@ -11,6 +11,9 @@ use Yii;
  * @property string $username
  * @property string $password
  * @property string $email
+ * @property string $firstname
+ * @property string $lastname
+ * @property bool $isadmin
  *
  * @property Post[] $posts
  */
@@ -67,6 +70,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         return [
             [['username', 'password', 'firstname', 'lastname', 'email'], 'string', 'max' => 60],
+            [['username', 'password', 'email'], 'required'],
+            ['email', 'email'],
         ];
     }
 
