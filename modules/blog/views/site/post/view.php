@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'content:ntext',
             [
 				'label' => 'Status',
-				'value' => $model->statusName->name,	            
+				'value' => $model->status->name,	            
             ],
             'update_time',
             'create_time',
