@@ -32,16 +32,4 @@ class PostController extends \app\modules\blog\controllers\PostController
         ]);
     }
 
-    /**
-     * Displays a single Post model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
 }

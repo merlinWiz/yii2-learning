@@ -33,4 +33,35 @@ class PostController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+    
+    protected function findModelbySlug($slug)
+    {
+	    if(($model = Post::findOne(['slug' => $slug])) !== null)
+	    {
+		    return $model;
+	    } else {
+		    throw new NotFoundHttpException('The requested page does not exist.');
+	    }
+    }
+
+    /**
+     * Displays a single Post model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionView($id = null, $slug = null)
+    {
+	    if($slug){
+	        return $this->render('view', [
+	            'model' => $this->findModelbySlug($slug),
+	        ]);
+	    } elseif($id) {
+	        return $this->render('view', [
+	            'model' => $this->findModel($id),
+	        ]);
+	    } else {
+		    throw new NotFoundHttpException('The requested page does not exist.');
+	    }
+    }
+
 }

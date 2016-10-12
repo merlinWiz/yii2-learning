@@ -6,6 +6,7 @@ use Yii;
 use yii\helpers\Url;
 use app\models\User;
 use app\models\Lookup;
+use yii\behaviors\SluggableBehavior;
 
 /**
  * This is the model class for table "post".
@@ -32,6 +33,18 @@ class Post extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'post';
+    }
+    
+    public function behaviors()
+    {
+	    return [
+		    [
+			    'class' => SluggableBehavior::className(),
+			    'attribute' => 'title',
+			    'slugAttribute' => 'slug',
+			    'ensureUnique' => true,
+		    ]
+	    ];
     }
 
     /**

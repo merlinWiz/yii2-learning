@@ -15,7 +15,8 @@ class m160926_101253_create_post_table extends Migration
         $this->createTable('post', [
             'id' => $this->PrimaryKey()->notNull()->unsigned(),
             'author_id' => $this->integer()->notNull()->unsigned(),
-            'title' => $this->text()->notNull(),
+            'title' => $this->string(60)->notNull(),
+            'slug' => $this->string(60)->notNull(),
             'content' => $this->text(),
             'status_code' => $this->integer()->unsigned(),
             'update_time' => 'datetime on update current_timestamp',
@@ -41,6 +42,7 @@ class m160926_101253_create_post_table extends Migration
 	        'id' => 1,
 	        'author_id' => 1,
 	        'title' => 'First post',
+	        'slug' => 'first-post',
 	        'content' => 'This is your content.',
 	        'status_code' => 1,
         ]);
@@ -49,6 +51,7 @@ class m160926_101253_create_post_table extends Migration
 	        'id' => 2,
 	        'author_id' => 1,
 	        'title' => 'Second post',
+	        'slug' => 'second-post',
 	        'content' => 'This is your content.',
 	        'status_code' => 2,
         ]);
@@ -57,6 +60,7 @@ class m160926_101253_create_post_table extends Migration
 	        'id' => 3,
 	        'author_id' => 1,
 	        'title' => 'Third post',
+	        'slug' => 'third-post',
 	        'content' => 'This is your content.',
 	        'status_code' => 2,
         ]);
@@ -65,6 +69,7 @@ class m160926_101253_create_post_table extends Migration
 	        'id' => 4,
 	        'author_id' => 1,
 	        'title' => 'Fourth post',
+	        'slug' => 'fourth-post',
 	        'content' => 'This is your content.',
 	        'status_code' => 3,
         ]);
