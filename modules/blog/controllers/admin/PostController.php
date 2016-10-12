@@ -78,7 +78,7 @@ class PostController extends \app\modules\blog\controllers\PostController
         $model = new Post();
 		
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        	return $this->redirect(['admin/post']);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -97,7 +97,7 @@ class PostController extends \app\modules\blog\controllers\PostController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        	return $this->redirect(['admin/post']);
         } else {
             return $this->render('update', [
                 'model' => $model,

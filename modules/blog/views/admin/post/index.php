@@ -36,10 +36,9 @@ $this->params['breadcrumbs'][] = $this->title;
 		        	'placeholder' => 'Поиск по названию...',    
 	            ], 
             ],
-            'content:ntext',
             [
 	            'attribute' => 'author',
-	            'value' => 'author.username'
+	            'value' => 'author.fullname'
             ],
             [
 	            'attribute' => 'status',

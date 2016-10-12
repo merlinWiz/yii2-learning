@@ -39,16 +39,17 @@ class PostSearch extends Post
         ]);
         
         $dataProvider->sort->attributes['status'] = [
-	        'asc' => ['status_code' => SORT_ASC],
-	        'desc' => ['status_code' => SORT_DESC],
+	        'asc' => ['lookup.name' => SORT_ASC],
+	        'desc' => ['lookup.name' => SORT_DESC],
         ];
 
         $dataProvider->sort->attributes['author'] = [
-	        'asc' => ['author_id' => SORT_ASC],
-	        'desc' => ['author_id' => SORT_DESC],
+	        'asc' => ['user.firstname' => SORT_ASC, 'user.lastname' => SORT_ASC],
+	        'desc' => ['user.firstname' => SORT_DESC, 'user.lastname' => SORT_DESC],
         ];
 
 	    if(!($this->load($params) && $this->validate())) {
+		    $query->joinWith(['status', 'author']);
 		    return $dataProvider;
 	    }
 	    

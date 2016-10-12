@@ -56,11 +56,13 @@ class Lookup extends \yii\db\ActiveRecord
 	    return self::$_items[$type];
     }
     
+/*
     public static function item($type,$code)
     {
 	    if(!isset(self::$_items[$type])) self::loadItems($type);
 	    return isset(self::$_items[$type][$code]) ? self::$_items[$type][$code] : false;
     }
+*/
     
     private static function loadItems($type)
     {

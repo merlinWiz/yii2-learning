@@ -97,8 +97,14 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             'password' => 'Password',
             'firstname' => 'First Name',
             'lastname' => 'Last Name',
+            'fullname' => 'Full Name',
             'email' => 'Email',
         ];
+    }
+    
+    public function getFullName()
+    {
+	    return $this->firstname . ' ' . $this->lastname;
     }
 
     /**
