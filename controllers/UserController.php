@@ -48,16 +48,6 @@ class UserController extends Controller
 	    return true;
     }
 	
-	public function beforeSave() {
-		if(parent::beforeSave()) {
-			
-			$this->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
-			
-			return true;
-		} else {
-			return false;
-		}
-	}
 	
     /**
      * Lists all User models.
