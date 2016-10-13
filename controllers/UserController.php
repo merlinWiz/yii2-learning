@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\User;
+use app\models\ChangePasswordForm;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -112,6 +113,24 @@ class UserController extends Controller
             ]);
         }
     }
+
+	public function actionChangePassword($id)
+	{
+		try {
+			$model = new ChangePasswordForm($id);
+		} catch (InvalidParamException $e) {
+			throw new BadRequestHttpException($e->getMessage());
+		}
+		if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->changePassword()) {
+			Yii::$app->session->setFlash('success', 'New password was saved.');
+			
+            return $this->redirect(['view', 'id' => $id]);
+		}
+		return $this->render('//admin/resetPassword', [
+			'model' => $model,
+		]);
+	}
+
 
     /**
      * Deletes an existing User model.

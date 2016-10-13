@@ -11,7 +11,7 @@ use yii\widgets\ActiveForm;
 <div class="row">
 	<div class="col-lg-5">
 
-		<div class="user-form>
+		<div class="user-form">
 		
 		    <?php $form = ActiveForm::begin(); ?>
 		
@@ -32,8 +32,13 @@ use yii\widgets\ActiveForm;
 		    <div class="form-group">
 		        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 		    </div>
-		
+		    
 		    <?php ActiveForm::end(); ?>
+
+		    <div>
+			    <?= Html::a('Change password', ['user/change-password', 'id' => $model->id]) ?>
+		    </div>
+		
 		
 		</div>
 	</div>

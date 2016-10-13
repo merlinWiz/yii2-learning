@@ -113,5 +113,7 @@ class AdminController extends Controller
 		return $this->render('resetPassword', [
 			'model' => $model,
 		]);
-	} 
+	}
+
+	
 }
