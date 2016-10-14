@@ -9,13 +9,13 @@ class ChangePasswordForm extends Model
 {
 	public $password;
 
-	public $_user;
+	private $_user;
 
 	public function __construct($id, $config = [])
 	{
 		$this->_user = User::findIdentity($id);
 		if (!$this->_user) {
-			throw new InvalidParamException('Wrong password reset user id.');
+			throw new InvalidParamException('Wrong user id.');
 		}
 		parent::__construct($config);
 	}

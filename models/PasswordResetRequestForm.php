@@ -41,7 +41,6 @@ class PasswordResetRequestForm extends Model
 		$user = User::findOne([
 			'email' => $this->email,
 		]);
-
 		if (!$user) {
 			return false;
 		}

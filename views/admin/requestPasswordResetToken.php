@@ -10,10 +10,16 @@ use yii\bootstrap\ActiveForm;
 $this->title = 'Request password reset';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<?php $error = Yii::$app->session->getFlash('error'); ?>
+<?php $success = Yii::$app->session->getFlash('success'); ?>
+
 <div class="site-request-password-reset">
 	<h1><?= Html::encode($this->title) ?></h1>
 
 	<p>Please fill out your email. A link to reset password will be sent there.</p>
+	
+	<?php if($error) echo $error; ?>
+	<?php if($success) echo $success; ?>
 
 	<div class="row">
 		<div class="col-lg-5">
