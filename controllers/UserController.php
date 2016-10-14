@@ -93,6 +93,7 @@ class UserController extends Controller
                 'model' => $model,
             ]);
         }
+
     }
 
     /**

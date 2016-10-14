@@ -13,7 +13,9 @@ use yii\widgets\ActiveForm;
 
 		<div class="user-form">
 		
-		    <?php $form = ActiveForm::begin(); ?>
+		    <?php $form = ActiveForm::begin([
+
+			]); ?>
 		
 		    <?php if($this->context->action->id == 'create') {
 			    
@@ -35,9 +37,6 @@ use yii\widgets\ActiveForm;
 		    
 		    <?php ActiveForm::end(); ?>
 
-		    <div>
-			    <?= Html::a('Change password', ['user/change-password', 'id' => $model->id]) ?>
-		    </div>
 		
 		
 		</div>

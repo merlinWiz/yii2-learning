@@ -18,4 +18,8 @@ $this->params['breadcrumbs'][] = 'Update';
         'model' => $model,
     ]) ?>
 
+	<div>
+	    <?= Html::a('Change password', ['user/change-password', 'id' => $model->id]) ?>
+	</div>
+
 </div>
