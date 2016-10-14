@@ -14,7 +14,6 @@ use Yii;
  * @property string $email
  * @property string $firstname
  * @property string $lastname
- * @property bool $isadmin
  *
  * @property Post[] $posts
  */
@@ -27,7 +26,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 	{
 		return 'user';
 	}
-
+	
 	/**
 	 * @inheritdoc
 	 */
@@ -132,7 +131,6 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 	public function beforeSave($insert) {
 		if(parent::beforeSave($insert)) {
 			
-// 			$this->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
 
 			return true;
 		} else {

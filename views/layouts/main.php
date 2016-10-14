@@ -38,10 +38,9 @@ AppAsset::register($this);
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'Blog', 'url' => ['/blog/site/post']],
-            ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/admin']]
+                ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
 	            [
 	            	'label' => 'Dashboard',
@@ -50,7 +49,7 @@ AppAsset::register($this);
 						['label' => 'Пользователи', 'url' => ['/user/index']],
 						'<li class="divider"></li>',
 		                '<li>'
-		                . Html::beginForm(['/admin/logout'], 'post', ['class' => ''])
+		                . Html::beginForm(['/site/logout'], 'post', ['class' => ''])
 		                . Html::submitButton(
 		                    'Logout (' . Yii::$app->user->identity->username . ')',
 		                    ['class' => '']

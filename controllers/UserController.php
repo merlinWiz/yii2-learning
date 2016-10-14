@@ -105,14 +105,17 @@ class UserController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+		
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+	        
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
             ]);
         }
+        
+        
     }
 
 	public function actionChangePassword($id)
@@ -127,7 +130,7 @@ class UserController extends Controller
 			
             return $this->redirect(['view', 'id' => $id]);
 		}
-		return $this->render('//admin/resetPassword', [
+		return $this->render('//site/resetPassword', [
 			'model' => $model,
 		]);
 	}

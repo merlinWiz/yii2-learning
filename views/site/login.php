@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
 
 		<div>
-        	If you forgot your password you can <?= Html::a('reset it', ['admin/request-password-reset']) ?>.
+        	If you forgot your password you can <?= Html::a('reset it', ['request-password-reset']) ?>.
         </div>
                 
         <div class="form-group">
