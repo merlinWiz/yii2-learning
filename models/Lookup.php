@@ -49,13 +49,7 @@ class Lookup extends \yii\db\ActiveRecord
     }
     
     private static $_items = array();
-    
-    public static function items($type)
-    {
-	    if(!isset(self::$_items[$type])) self::loadItems($type);
-	    return self::$_items[$type];
-    }
-    
+
 /*
     public static function item($type,$code)
     {
@@ -64,6 +58,12 @@ class Lookup extends \yii\db\ActiveRecord
     }
 */
     
+    public static function items($type)
+    {
+	    if(!isset(self::$_items[$type])) self::loadItems($type);
+	    return self::$_items[$type];
+    }
+        
     private static function loadItems($type)
     {
 	    self::$_items[$type]=array();
