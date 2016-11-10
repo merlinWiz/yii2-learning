@@ -15,7 +15,7 @@ $id = $model->id;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'parent_id')->dropDownList($model::itemsTree(),
+    <?= $form->field($model, 'parent_id')->dropDownList($model->tree(),
 	    [
 	    	'prompt' => 'Не выбрано', 'options' => [$id => ['disabled' => true]]
 	    ]) ?>

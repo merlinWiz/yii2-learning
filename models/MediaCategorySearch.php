@@ -19,7 +19,7 @@ class MediaCategorySearch extends MediaCategory
     {
         return [
             [['id', 'parent_id'], 'integer'],
-            [['slug', 'title'], 'safe'],
+            [['title'], 'safe'],
         ];
     }
 
@@ -63,8 +63,7 @@ class MediaCategorySearch extends MediaCategory
             'parent_id' => $this->parent_id,
         ]);
 
-        $query->andFilterWhere(['like', 'slug', $this->slug])
-            ->andFilterWhere(['like', 'title', $this->title]);
+        $query->andFilterWhere(['like', 'title', $this->title]);
 
         return $dataProvider;
     }

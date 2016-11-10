@@ -4,6 +4,8 @@ namespace app\models;
 
 use Yii;
 use yii\behaviors\SluggableBehavior;
+use paulzi\adjacencyList\AdjacencyListBehavior;
+use paulzi\adjacencyList\AdjacencyListQueryTrait;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -30,10 +32,7 @@ class MediaCategory extends \yii\db\ActiveRecord
     {
 	    return [
 		    [
-			    'class' => SluggableBehavior::className(),
-			    'attribute' => 'title',
-			    'slugAttribute' => 'slug',
-			    'ensureUnique' => true,
+			    'class' => AdjacencyListBehavior::className(),			    
 		    ]
 	    ];
     }
@@ -46,6 +45,7 @@ class MediaCategory extends \yii\db\ActiveRecord
         return [
             [['parent_id'], 'exist', 'targetAttribute' => 'id'],
             [['title'], 'string', 'max' => 20],
+            ['id', 'safe'],
         ];
     }
 
@@ -59,6 +59,49 @@ class MediaCategory extends \yii\db\ActiveRecord
             'title' => 'Название',
         ];
     }
+
+	public static function find()
+	{
+		return new SampleQuery(get_called_class());
+	}
+	
+	public function roots()
+	{
+		return self::find()->roots()->all();
+	}
+	
+	public function tree()
+	{
+		$tree = [];
+		foreach($this->roots() as $root)
+		{
+			$root->populateTree();
+			$id = $root->id;
+			$tree[$id] = $root->title;
+			
+			$tree += self::_getChildren($root);
+			
+		}
+		
+		return $tree;
+	}
+	
+	public static function _getChildren($node)
+	{
+		static $depth = '-';
+		
+		
+		$result = [];
+		foreach($node->children as $child)
+		{
+			$id = $child->id;
+			$result[$id] = $depth . $child->title;
+			$depth .= '-';
+			$result += self::_getChildren($child);
+			$depth = substr($depth, 0, -1);
+		}
+		return $result;
+	}
     
 	private static $_items;
     
@@ -98,4 +141,9 @@ class MediaCategory extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Media::className(), ['category_id' => 'id']);
     }
+}
+
+class SampleQuery extends \yii\db\ActiveQuery
+{
+    use AdjacencyListQueryTrait;
 }
