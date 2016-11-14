@@ -10,6 +10,7 @@ use yii\web\Controller;
 use yii\web\UploadedFile;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * MediaController implements the CRUD actions for Media model.
@@ -27,6 +28,16 @@ class MediaController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
+            ],
+            'access' => [
+	            'class' => AccessControl::className(),
+	            'only' => ['index', 'create', 'update', 'delete', 'upload'],
+	            'rules' => [
+		            [
+			            'allow' => true,
+			            'roles' => ['@'],
+		            ],
+	            ],
             ],
         ];
     }
@@ -58,24 +69,6 @@ class MediaController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new Media model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Media();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
-
 	public function actionUpload()
 	{
 	    $model = new UploadForm();
@@ -84,7 +77,8 @@ class MediaController extends Controller
 		    $model->files = UploadedFile::getInstances($model, 'files');
 	        if ($model->upload()) {
 	            // form inputs are valid, do something here
-	            return;
+	            
+	            return $this->redirect(['index']);
 	        }
 	    }
 	
@@ -120,7 +114,9 @@ class MediaController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+	    $model = $this->findModel($id);
+        unlink($model->src);
+        $model->delete();
 
         return $this->redirect(['index']);
     }

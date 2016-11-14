@@ -9,16 +9,23 @@ use Yii;
 class UploadForm extends Model
 {
 	public $files;
-	public $category;
-	private $uploads_root;
+	public $category_id;
 	/**
 	 * @inheritdoc
 	 */
 	public function rules()
 	{
 		return [
-			['files', 'file', 'skipOnEmpty' => false, 'extensions' => ['png', 'jpg', 'pdf', 'doc', 'docx'], 'maxSize' => 1024*1024, 'maxFiles' => 20],
-			['category', 'string', 'min' => 1],
+			['files', 'file', 'skipOnEmpty' => false, 'extensions' => ['png', 'jpg', 'pdf', 'doc', 'docx', 'ppt', 'pptx'], 
+			'mimeTypes' => [
+				'image/*', 
+				'application/pdf', 
+				'application/msword', 
+				'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 
+				'application/vnd.ms-powerpointtd', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+				],
+			'maxSize' => 1024*1024*8, 'maxFiles' => 20],
+            ['category_id', 'exist', 'skipOnError' => true, 'targetClass' => MediaCategory::className(), 'targetAttribute' => ['category_id' => 'id']],
 		];
 	}
 
@@ -29,15 +36,37 @@ class UploadForm extends Model
 	{
 		return [
 			'files' => 'Загрузить файлы',
-			'category' => 'Категория',
+			'category_id' => 'Категория',
 		];
 	}
 
 	public function upload()
 	{
 		if ($this->validate()) {
+			$date_path = str_replace('-', '/', date('Y-m-d')) . '/';
+			$path = Yii::getAlias('@webroot') . '/uploads/' . $date_path;
+			$user_id = Yii::$app->user->getId();
+			
+			if(!file_exists($path)){
+				if(!mkdir($path, 0777, true)){
+					return false;
+				}
+			}
 			foreach($this->files as $file) {
-				$file->saveAs(Yii::getAlias('@webroot') . '/uploads/' . $this->category . '/'  . $file->baseName . '.' . $file->extension);
+
+				$md5_file = md5_file($file->tempName);
+				$src = $path . $md5_file . '.' . $file->extension;
+				
+				if($file->saveAs($src)){
+					
+					$media = new Media();
+					$media->user_id = $user_id;
+					$media->category_id = $this->category_id;
+					$media->file_name = $file->baseName . '.' . $file->extension;
+					$media->src = $src;
+					
+					$media->save();
+				}
 			}
 			return true;
 		} else {
@@ -45,25 +74,9 @@ class UploadForm extends Model
 		}
 	}
 
-	public function listUploadFolders()
-	{
-		$dir = Yii::getAlias('@webroot') . '/uploads';
-		return self::scanFolder($dir);
-	}
-	
-	private static function scanFolder($dir)
-	{
-	    $dh = scandir($dir);
-	    $return = array();
-	
-	    foreach ($dh as $folder) {
-		    if($folder != '.' && $folder != '..' && is_dir($dir . '/' . $folder)){
-// 			    $return[$folder] = self::scanFolder($dir . '/' . $folder);
-				$return[$folder] = $folder;
-		    }
-		    
-	    }
-	    
-	    return $return;
-	}
+    public function listUploadCategories()
+    {
+	    return MediaCategory::itemsTree();
+    }
+
 }

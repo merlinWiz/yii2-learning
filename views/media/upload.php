@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 		<?= $form->field($model, 'files[]')->fileInput(['multiple' => true]) ?>
  
-		<?= $form->field($model, 'category')->dropDownList($model->listUploadFolders()) ?>
+		<?= $form->field($model, 'category_id')->dropDownList($model->listUploadCategories(), [ 'prompt' => 'Не выбрано']) ?>
 		   
         <div class="form-group">
             <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
