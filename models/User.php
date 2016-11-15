@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-
+use yii\helpers\ArrayHelper;
 /**
  * This is the model class for table "user".
  *
@@ -150,6 +150,11 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 	public function getPosts()
 	{
 		return $this->hasMany(Post::className(), ['author_id' => 'id']);
+	}
+	
+	public static function users()
+	{
+		return ArrayHelper::map(self::find()->all(), 'id', 'username');
 	}
 	
 }

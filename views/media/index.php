@@ -3,6 +3,9 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use app\models\MediaCategory;
+use app\models\User;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\MediaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -24,13 +27,25 @@ $this->params['breadcrumbs'][] = $this->title;
 		'columns' => [
 			['class' => 'yii\grid\SerialColumn'],
 			[
-				'attribute' => 'Изображение',
+				'attribute' => 'preview',
+				'label' => 'Изображение',
 				'format' => 'html',
 				'value' => function($model){return Html::img(Yii::getAlias('@uploads') . $model['src'], ['width' => '100px']);}
 			],
-			'user_id',
-			'category_id',
 			'file_name',
+            [
+	            'attribute' => 'user',
+	            'label' => 'Пользователь',
+	            'value' => 'user.username',
+	            'filter' => User::users()
+            ],
+            [
+	            'attribute' => 'category',
+	            'label' => 'Категория',
+	            'value' => 'category.title',
+	            'filter' => MediaCategory::itemsTree()
+            ],
+            'upload_time',
 			['class' => 'yii\grid\ActionColumn'],
 			],
     ]) ?>

@@ -48,7 +48,7 @@ class Media extends \yii\db\ActiveRecord
             'user_id' => 'Пользователь',
             'category_id' => 'Категория',
             'file_name' => 'Имя файла',
-            'upload_time' => 'Upload Time',
+            'upload_time' => 'Дата загрузки',
         ];
     }
     

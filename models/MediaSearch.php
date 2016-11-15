@@ -12,14 +12,16 @@ use app\models\Media;
  */
 class MediaSearch extends Media
 {
+	public $category;
+	public $user;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'user_id', 'category_id'], 'integer'],
-            [['file_name', 'upload_time'], 'safe'],
+            [['category_id', 'user_id'], 'integer'],
+            [['file_name', 'category', 'user'], 'safe'],
         ];
     }
 
@@ -47,7 +49,24 @@ class MediaSearch extends Media
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+	            'defaultOrder' => [
+		            'upload_time' => SORT_DESC,
+	            ],
+	        ],
         ]);
+
+		$query->joinWith(['category', 'user']);
+
+        $dataProvider->sort->attributes['category'] = [
+	        'asc' => ['media_category.title' => SORT_ASC],
+	        'desc' => ['media_category.title' => SORT_DESC],
+        ];
+
+        $dataProvider->sort->attributes['user'] = [
+	        'asc' => ['user.username' => SORT_ASC],
+	        'desc' => ['user.username' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -57,15 +76,9 @@ class MediaSearch extends Media
             return $dataProvider;
         }
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'user_id' => $this->user_id,
-            'category_id' => $this->category_id,
-            'upload_time' => $this->upload_time,
-        ]);
-
-        $query->andFilterWhere(['like', 'file_name', $this->file_name]);
+        $query->andFilterWhere(['like', 'file_name', $this->file_name])
+        	->andFilterWhere(['like', 'media_category.id', $this->category])
+        	->andFilterWhere(['like', 'user.id', $this->user]);
 
         return $dataProvider;
     }
