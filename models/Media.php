@@ -12,7 +12,6 @@ use Yii;
  * @property integer $category_id
  * @property string $file_name
  * @property string $src
- * @property string $alt
  * @property string $upload_time
  *
  * @property User $user
@@ -49,7 +48,6 @@ class Media extends \yii\db\ActiveRecord
             'user_id' => 'User ID',
             'category_id' => 'Category ID',
             'file_name' => 'File Name',
-            'alt' => 'Alt',
             'upload_time' => 'Upload Time',
         ];
     }

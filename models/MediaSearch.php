@@ -19,7 +19,7 @@ class MediaSearch extends Media
     {
         return [
             [['id', 'user_id', 'category_id'], 'integer'],
-            [['file_name', 'alt', 'upload_time'], 'safe'],
+            [['file_name', 'upload_time'], 'safe'],
         ];
     }
 
@@ -65,8 +65,7 @@ class MediaSearch extends Media
             'upload_time' => $this->upload_time,
         ]);
 
-        $query->andFilterWhere(['like', 'file_name', $this->file_name])
-            ->andFilterWhere(['like', 'alt', $this->alt]);
+        $query->andFilterWhere(['like', 'file_name', $this->file_name]);
 
         return $dataProvider;
     }

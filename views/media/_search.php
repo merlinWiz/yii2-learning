@@ -21,8 +21,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'file_name') ?>
 
-    <?= $form->field($model, 'alt') ?>
-
     <?php // echo $form->field($model, 'upload_time') ?>
 
     <div class="form-group">

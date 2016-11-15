@@ -12,7 +12,6 @@ class m161107_042500_media extends Migration
             'category_id' => $this->integer()->unsigned(),
             'file_name' => $this->string(100)->notNull(),
             'src' => $this->string()->notNull(),
-            'alt' => $this->string(100),
             'upload_time' => 'datetime default current_timestamp',
         ]);
         

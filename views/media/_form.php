@@ -18,8 +18,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'file_name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'alt')->textInput(['maxlength' => true]) ?>
-
     <?= $form->field($model, 'upload_time')->textInput() ?>
 
     <div class="form-group">
