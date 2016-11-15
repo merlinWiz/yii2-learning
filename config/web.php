@@ -5,7 +5,10 @@ $params = require(__DIR__ . '/params.php');
 $config = [
     'id' => 'mbdou',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => [
+    'log',
+    'app\components\Aliases',
+    ],
     'modules' => [
 	    'blog' => [
 		    'class' => 'app\modules\blog\Module',
@@ -54,6 +57,9 @@ $config = [
             'showScriptName' => true,
             'rules' => [
             ],
+        ],
+        'aliases' => [
+	        'class' => 'app\components\Aliases',
         ],
        
     ],

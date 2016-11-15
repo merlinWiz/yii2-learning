@@ -55,15 +55,16 @@ class UploadForm extends Model
 			foreach($this->files as $file) {
 
 				$md5_file = md5_file($file->tempName);
-				$src = $path . $md5_file . '.' . $file->extension;
+				$file_name = $md5_file . '.' . $file->extension;
+				$save_path = $path . $file_name;
 				
-				if($file->saveAs($src)){
+				if($file->saveAs($save_path)){
 					
 					$media = new Media();
 					$media->user_id = $user_id;
 					$media->category_id = $this->category_id;
 					$media->file_name = $file->baseName . '.' . $file->extension;
-					$media->src = $src;
+					$media->src = $date_path . $file_name;
 					
 					$media->save();
 				}
@@ -74,7 +75,7 @@ class UploadForm extends Model
 		}
 	}
 
-    public function listUploadCategories()
+    public function listMediaCategories()
     {
 	    return MediaCategory::itemsTree();
     }

@@ -17,7 +17,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'user_id') ?>
 
-    <?= $form->field($model, 'category_id') ?>
+    <?= $form->field($model, 'category_id')->dropDownList($model->listMediaCategories(), ['prompt' => 'Не выбрано']) ?>
 
     <?= $form->field($model, 'file_name') ?>
 

@@ -45,9 +45,9 @@ class Media extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user_id' => 'User ID',
-            'category_id' => 'Category ID',
-            'file_name' => 'File Name',
+            'user_id' => 'Пользователь',
+            'category_id' => 'Категория',
+            'file_name' => 'Имя файла',
             'upload_time' => 'Upload Time',
         ];
     }
@@ -66,6 +66,11 @@ class Media extends \yii\db\ActiveRecord
     public function getCategory()
     {
         return $this->hasOne(MediaCategory::className(), ['id' => 'category_id']);
+    }
+
+    public function listMediaCategories()
+    {
+	    return MediaCategory::itemsTree();
     }
     
 }

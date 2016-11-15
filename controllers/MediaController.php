@@ -115,7 +115,7 @@ class MediaController extends Controller
     public function actionDelete($id)
     {
 	    $model = $this->findModel($id);
-        unlink($model->src);
+        unlink(Yii::getAlias('@uploadsPath') . $model->src);
         $model->delete();
 
         return $this->redirect(['index']);
