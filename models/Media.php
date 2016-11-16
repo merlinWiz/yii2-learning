@@ -11,7 +11,6 @@ use Yii;
  * @property integer $user_id
  * @property integer $category_id
  * @property string $file_name
- * @property string $src
  * @property string $upload_time
  *
  * @property User $user
@@ -71,6 +70,26 @@ class Media extends \yii\db\ActiveRecord
     public function listMediaCategories()
     {
 	    return MediaCategory::itemsTree();
+    }
+    
+    public function deleteMedia()
+    {
+	    unlink(Yii::getAlias('@uploadsPath') . $this->path . '/' .  $this->getMedia());
+	    if($this->extension == 'jpg' || $this->extension == 'jpeg' || $this->extension == 'png') {
+		    foreach(UploadForm::SIZES as $size)
+		    {
+			    unlink(Yii::getAlias('@uploadsPath') . $this->path . '/' . $this->getMediaThumbnail($size['title']));
+		    }
+		}
+    }
+    public function getMedia()
+    {
+	    return $this->md5 . '.' . $this->extension;
+    }
+    
+    public function getMediaThumbnail($size)
+    {
+	    return $this->md5 . '_' . $size . '.' . $this->extension;
     }
     
 }

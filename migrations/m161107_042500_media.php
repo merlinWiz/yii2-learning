@@ -10,8 +10,10 @@ class m161107_042500_media extends Migration
             'id' => $this->PrimaryKey()->notNull()->unsigned(),
             'user_id' => $this->integer()->notNull()->unsigned(),
             'category_id' => $this->integer()->unsigned(),
+            'path' => $this->string()->notNull(),
             'file_name' => $this->string(100)->notNull(),
-            'src' => $this->string()->notNull(),
+            'md5' => $this->string(32)->notNull(),
+            'extension' => $this->string(10)->notNull(),
             'upload_time' => 'datetime default current_timestamp',
         ]);
         

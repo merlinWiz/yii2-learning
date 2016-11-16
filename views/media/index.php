@@ -28,9 +28,16 @@ $this->params['breadcrumbs'][] = $this->title;
 			['class' => 'yii\grid\SerialColumn'],
 			[
 				'attribute' => 'preview',
-				'label' => 'Изображение',
+				'label' => 'Превью',
 				'format' => 'html',
-				'value' => function($model){return Html::img(Yii::getAlias('@uploads') . $model['src'], ['width' => '100px']);}
+				'value' => function($model){
+					if($model['extension'] == 'jpg' || $model['extension'] == 'jpeg' || $model['extension'] == 'png' ) {
+						return Html::img(Yii::getAlias('@uploads') . $model['path'] . '/' . $model['md5'] . '_100x100.' . $model['extension']);
+					} else {
+						return Html::img(Yii::getAlias('@uploads') . 'covers/' . $model->extension . '.png');
+					}
+					
+				}
 			],
 			'file_name',
             [

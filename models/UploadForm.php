@@ -4,19 +4,24 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\web\UploadedFile;
+use yii\imagine\Image;
 use Yii;
 
 class UploadForm extends Model
 {
 	public $files;
 	public $category_id;
+	const SIZES = [
+		['width' => 100, 'height' => 100, 'title' => '100x100'],
+		['width' => 800, 'height' => 600, 'title' => '800x600']
+	];
 	/**
 	 * @inheritdoc
 	 */
 	public function rules()
 	{
 		return [
-			['files', 'file', 'skipOnEmpty' => false, 'extensions' => ['png', 'jpg', 'pdf', 'doc', 'docx', 'ppt', 'pptx'], 
+			['files', 'file', 'skipOnEmpty' => false, 'extensions' => ['png', 'jpg', 'jpeg', 'pdf', 'doc', 'docx', 'ppt', 'pptx'], 
 			'mimeTypes' => [
 				'image/*', 
 				'application/pdf', 
@@ -43,7 +48,7 @@ class UploadForm extends Model
 	public function upload()
 	{
 		if ($this->validate()) {
-			$date_path = str_replace('-', '/', date('Y-m-d')) . '/';
+			$date_path = str_replace('-', '/', date('Y-m-d'));
 			$path = Yii::getAlias('@webroot') . '/uploads/' . $date_path;
 			$user_id = Yii::$app->user->getId();
 			
@@ -55,18 +60,29 @@ class UploadForm extends Model
 			foreach($this->files as $file) {
 
 				$md5_file = md5_file($file->tempName);
-				$file_name = $md5_file . '.' . $file->extension;
-				$save_path = $path . $file_name;
+				$extension = $file->extension;
+				$file_name = $md5_file . '.' . $extension;
+				$save_path = $path . '/' . $file_name;
 				
 				if($file->saveAs($save_path)){
 					
 					$media = new Media();
 					$media->user_id = $user_id;
 					$media->category_id = $this->category_id;
-					$media->file_name = $file->baseName . '.' . $file->extension;
-					$media->src = $date_path . $file_name;
+					$media->path = $date_path;
+					$media->file_name = $file->baseName . '.' . $extension;
+					$media->md5 = $md5_file;
+					$media->extension = $extension;
 					
 					$media->save();
+				}
+				
+				if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png'){
+					foreach(self::SIZES as $size) {
+
+						Image::thumbnail($save_path, $size['width'], $size['height'])->save($path . '/' . $md5_file . '_' . $size['title'] . '.' . $extension);
+					}
+					
 				}
 			}
 			return true;
