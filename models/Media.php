@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use yii\behaviors\BlameableBehavior;
 use Yii;
 
 /**
@@ -36,6 +37,17 @@ class Media extends \yii\db\ActiveRecord
             ['category_id', 'exist', 'skipOnError' => true, 'targetClass' => MediaCategory::className(), 'targetAttribute' => ['category_id' => 'id']],
         ];
     }
+
+	public function behaviors()
+	{
+		return [
+			[
+				'class' => BlameableBehavior::className(),
+				'createdByAttribute' => 'user_id',
+				'updatedByAttribute' => false,
+			],
+		];
+	}
 
     /**
      * @inheritdoc

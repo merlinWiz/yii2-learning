@@ -38,7 +38,7 @@ class UploadForm extends Model
             ['category_id', 'exist', 'skipOnError' => true, 'targetClass' => MediaCategory::className(), 'targetAttribute' => ['category_id' => 'id']],
 		];
 	}
-
+	
 	/**
 	 * @inheritdoc
 	 */
@@ -55,7 +55,6 @@ class UploadForm extends Model
 		if ($this->validate()) {
 			$date_path = str_replace('-', DIRECTORY_SEPARATOR, date('Y-m-d'));
 			$path = Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . $date_path;
-			$user_id = Yii::$app->user->getId();
 			
 			if(!file_exists($path)){
 				if(!mkdir($path, 0777, true)){
@@ -72,7 +71,6 @@ class UploadForm extends Model
 				if($file->saveAs($save_path)){
 					
 					$media = new Media();
-					$media->user_id = $user_id;
 					$media->category_id = $this->category_id;
 					$media->path = $date_path;
 					$media->file_name = $file->baseName . '.' . $extension;
