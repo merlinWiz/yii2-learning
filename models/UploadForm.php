@@ -11,10 +11,15 @@ class UploadForm extends Model
 {
 	public $files;
 	public $category_id;
-	const SIZES = [
-		['width' => 100, 'height' => 100, 'title' => '100x100'],
-		['width' => 800, 'height' => 600, 'title' => '800x600']
-	];
+	
+	public static function getThumbnailSizes()
+	{
+		return [
+			['width' => 100, 'height' => 100, 'title' => '100x100'],
+			['width' => 800, 'height' => 600, 'title' => '800x600']
+		];
+	}
+	 
 	/**
 	 * @inheritdoc
 	 */
@@ -48,8 +53,8 @@ class UploadForm extends Model
 	public function upload()
 	{
 		if ($this->validate()) {
-			$date_path = str_replace('-', '/', date('Y-m-d'));
-			$path = Yii::getAlias('@webroot') . '/uploads/' . $date_path;
+			$date_path = str_replace('-', DIRECTORY_SEPARATOR, date('Y-m-d'));
+			$path = Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . $date_path;
 			$user_id = Yii::$app->user->getId();
 			
 			if(!file_exists($path)){
@@ -62,7 +67,7 @@ class UploadForm extends Model
 				$md5_file = md5_file($file->tempName);
 				$extension = $file->extension;
 				$file_name = $md5_file . '.' . $extension;
-				$save_path = $path . '/' . $file_name;
+				$save_path = $path . DIRECTORY_SEPARATOR . $file_name;
 				
 				if($file->saveAs($save_path)){
 					
@@ -78,9 +83,9 @@ class UploadForm extends Model
 				}
 				
 				if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png'){
-					foreach(self::SIZES as $size) {
+					foreach(self::getThumbnailSizes() as $size) {
 
-						Image::thumbnail($save_path, $size['width'], $size['height'])->save($path . '/' . $md5_file . '_' . $size['title'] . '.' . $extension);
+						Image::thumbnail($save_path, $size['width'], $size['height'])->save($path . DIRECTORY_SEPARATOR . $md5_file . '_' . $size['title'] . '.' . $extension);
 					}
 					
 				}

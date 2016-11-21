@@ -74,22 +74,54 @@ class Media extends \yii\db\ActiveRecord
     
     public function deleteMedia()
     {
-	    unlink(Yii::getAlias('@uploadsPath') . $this->path . '/' .  $this->getMedia());
+	    unlink($this->getUploadsPath() . $this->getMedia());
 	    if($this->extension == 'jpg' || $this->extension == 'jpeg' || $this->extension == 'png') {
-		    foreach(UploadForm::SIZES as $size)
+		    foreach(UploadForm::getThumbnailSizes() as $size)
 		    {
-			    unlink(Yii::getAlias('@uploadsPath') . $this->path . '/' . $this->getMediaThumbnail($size['title']));
+			    unlink($this->getUploadsPath() . $this->getMediaThumbnail($size['title']));
 		    }
 		}
     }
     public function getMedia()
     {
-	    return $this->md5 . '.' . $this->extension;
+	    return $this->getMediaPath() . $this->md5 . '.' . $this->extension;
     }
     
     public function getMediaThumbnail($size)
     {
-	    return $this->md5 . '_' . $size . '.' . $this->extension;
+	    return $this->getMediaPath() . $this->md5 . '_' . $size . '.' . $this->extension;
     }
     
+    public function getUploadsPath()
+    {
+	    return Yii::getAlias('@uploadsPath');
+    }
+    
+    public function getUploadsURI()
+    {
+	    return Yii::getAlias('@uploads');
+    }
+    public function isImage()
+    {
+	    return $this->extension == 'jpg' || $this->extension == 'jpeg' || $this->extension == 'png';
+    }
+    public function getMediaThumbnailURI($size)
+    {
+	    return $this->getUploadsURI() . $this->getMediaThumbnail($size);
+    }
+    public function getMediaCoverURI()
+    {
+	    $path = 'covers' . DIRECTORY_SEPARATOR;
+	    $cover = $path . $this->extension . '.png';
+	    
+	    if(file_exists($this->getUploadsPath() . $cover)){
+		    return $this->getUploadsURI() . $cover;
+	    } else {
+	    	return $this->getUploadsURI() . $path . 'blank.png';
+	    }
+    }
+    public function getMediaPath()
+    {
+	    return $this->path . DIRECTORY_SEPARATOR;
+    }
 }

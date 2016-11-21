@@ -31,10 +31,10 @@ $this->params['breadcrumbs'][] = $this->title;
 				'label' => 'Превью',
 				'format' => 'html',
 				'value' => function($model){
-					if($model['extension'] == 'jpg' || $model['extension'] == 'jpeg' || $model['extension'] == 'png' ) {
-						return Html::img(Yii::getAlias('@uploads') . $model['path'] . '/' . $model['md5'] . '_100x100.' . $model['extension']);
+					if( $model->isImage() ) {
+						return Html::img($model->getMediaThumbnailURI('100x100'));
 					} else {
-						return Html::img(Yii::getAlias('@uploads') . 'covers/' . $model->extension . '.png');
+						return Html::img($model->getMediaCoverURI());
 					}
 					
 				}
