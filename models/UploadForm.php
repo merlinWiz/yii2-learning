@@ -4,6 +4,7 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\web\UploadedFile;
+use yii\helpers\FileHelper;
 use yii\imagine\Image;
 use Yii;
 
@@ -18,6 +19,11 @@ class UploadForm extends Model
 			['width' => 100, 'height' => 100, 'title' => '100x100'],
 			['width' => 800, 'height' => 600, 'title' => '800x600']
 		];
+	}
+
+	public static function isImage($file)
+	{
+		return preg_match('/^' . str_replace('\*', '.*', preg_quote('image/*', '/')) . '$/', FileHelper::getMimeType($file));
 	}
 	 
 	/**
@@ -50,6 +56,7 @@ class UploadForm extends Model
 		];
 	}
 
+
 	public function upload()
 	{
 		if ($this->validate()) {
@@ -80,7 +87,7 @@ class UploadForm extends Model
 					$media->save();
 				}
 				
-				if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png'){
+				if(self::isImage($save_path)){
 					foreach(self::getThumbnailSizes() as $size) {
 
 						Image::thumbnail($save_path, $size['width'], $size['height'])->save($path . DIRECTORY_SEPARATOR . $md5_file . '_' . $size['title'] . '.' . $extension);
@@ -93,7 +100,7 @@ class UploadForm extends Model
 			return false;
 		}
 	}
-
+	
     public function listMediaCategories()
     {
 	    return MediaCategory::itemsTree();

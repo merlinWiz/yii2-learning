@@ -86,14 +86,26 @@ class Media extends \yii\db\ActiveRecord
     
     public function deleteMedia()
     {
-	    unlink($this->getUploadsPath() . $this->getMedia());
-	    if($this->extension == 'jpg' || $this->extension == 'jpeg' || $this->extension == 'png') {
+	    if($this->isImage()) {
 		    foreach(UploadForm::getThumbnailSizes() as $size)
 		    {
 			    unlink($this->getUploadsPath() . $this->getMediaThumbnail($size['title']));
 		    }
 		}
+	    unlink($this->getFullMediaPath());
+
     }
+
+    public function getFullMediaPath()
+    {
+	    return $this->getUploadsPath() . $this->getMedia();
+    }
+
+    public function getUploadsPath()
+    {
+	    return Yii::getAlias('@uploadsPath');
+    }
+    
     public function getMedia()
     {
 	    return $this->getMediaPath() . $this->md5 . '.' . $this->extension;
@@ -103,20 +115,17 @@ class Media extends \yii\db\ActiveRecord
     {
 	    return $this->getMediaPath() . $this->md5 . '_' . $size . '.' . $this->extension;
     }
-    
-    public function getUploadsPath()
+
+    public function getMediaPath()
     {
-	    return Yii::getAlias('@uploadsPath');
-    }
+	    return $this->path . DIRECTORY_SEPARATOR;
+    }    
     
     public function getUploadsURI()
     {
 	    return Yii::getAlias('@uploads');
     }
-    public function isImage()
-    {
-	    return $this->extension == 'jpg' || $this->extension == 'jpeg' || $this->extension == 'png';
-    }
+
     public function getMediaThumbnailURI($size)
     {
 	    return $this->getUploadsURI() . $this->getMediaThumbnail($size);
@@ -132,8 +141,10 @@ class Media extends \yii\db\ActiveRecord
 	    	return $this->getUploadsURI() . $path . 'blank.png';
 	    }
     }
-    public function getMediaPath()
+
+    public function isImage()
     {
-	    return $this->path . DIRECTORY_SEPARATOR;
+	    return UploadForm::isImage($this->getFullMediaPath());
     }
+
 }
