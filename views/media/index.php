@@ -30,14 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'attribute' => 'preview',
 				'label' => 'Превью',
 				'format' => 'html',
-				'value' => function($model){
-					if( $model->isImage() ) {
-						return Html::img($model->getMediaThumbnailURI('100x100'));
-					} else {
-						return Html::img($model->getMediaCoverURI());
-					}
-					
-				}
+				'value' => function($model){ return Html::img($model->getMediaThumbnailURI());}
 			],
 			'file_name',
             [

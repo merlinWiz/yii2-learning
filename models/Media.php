@@ -126,7 +126,7 @@ class Media extends \yii\db\ActiveRecord
 	    return Yii::getAlias('@uploads');
     }
 
-    public function getMediaThumbnailURI($size)
+    public function getImageThumbnailURI($size)
     {
 	    return $this->getUploadsURI() . $this->getMediaThumbnail($size);
     }
@@ -147,4 +147,12 @@ class Media extends \yii\db\ActiveRecord
 	    return UploadForm::isImage($this->getFullMediaPath());
     }
 
+	public function getMediaThumbnailURI()
+	{
+		if( $this->isImage() ) {
+			return $this->getImageThumbnailURI('100x100');
+		} else {
+			return $this->getMediaCoverURI();
+		}
+	}
 }
