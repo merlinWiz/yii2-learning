@@ -10,6 +10,8 @@ use app\models\User;
 /* @var $searchModel app\models\MediaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
+$this->registerJsFile('@web/js/main.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+
 $this->title = 'Media';
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -21,11 +23,18 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Upload Media', ['upload'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+    <p>
+        <?= Html::a('Delete Selected', ['batchDelete'], ['class' => 'btn', 'id' => 'batchMediaDelete']) ?>
+    </p>
+<?php Pjax::begin([
+		'id' => 'mediaGridPjax',
+	]); ?>
+<?= GridView::widget([
+		'id' => 'mediaGrid',
         'dataProvider' => $dataProvider,
 	    'filterModel' => $searchModel,
 		'columns' => [
-			['class' => 'yii\grid\SerialColumn'],
+			['class' => 'yii\grid\CheckboxColumn'],
 			[
 				'attribute' => 'preview',
 				'label' => 'Превью',

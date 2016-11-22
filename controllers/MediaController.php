@@ -11,6 +11,7 @@ use yii\web\UploadedFile;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\helpers\Json;
 
 /**
  * MediaController implements the CRUD actions for Media model.
@@ -27,11 +28,12 @@ class MediaController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                    'batchDelete' => ['POST'],
                 ],
             ],
             'access' => [
 	            'class' => AccessControl::className(),
-	            'only' => ['index', 'create', 'update', 'delete', 'upload'],
+	            'only' => ['index', 'create', 'update', 'delete', 'batchDelete', 'upload'],
 	            'rules' => [
 		            [
 			            'allow' => true,
@@ -114,14 +116,46 @@ class MediaController extends Controller
      */
     public function actionDelete($id)
     {
+		$this->deleteModel($id);
+        return $this->redirect(['index']);
+    }
+
+	public function actionBatchDelete()
+	{
+		$request = Yii::$app->request;
+		if ($request->isAjax && $request->isPost) {
+			$data = $request->post();
+			$keys = $data['keys'];
+		    if ($keys) {
+		        if (!is_array($keys)) {
+		            echo Json::encode([
+		                'status' => 'error',
+		            ]);
+		            return;
+		        }
+		        foreach ($keys as $id) {
+			        $this->deleteModel($id);
+		        }
+		        echo Json::encode([
+		            'status' => 'success',
+		        ]);
+		    } else {
+			    echo Json::encode([
+			        'status' => 'error',
+			    ]);
+		    }
+		}	    
+
+	}
+	
+	protected function deleteModel($id)
+	{
 	    $model = $this->findModel($id);
 	    
         $model->deleteMedia();
         $model->delete();
-
-        return $this->redirect(['index']);
-    }
-
+	}
+	
     /**
      * Finds the Media model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
