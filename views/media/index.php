@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'attribute' => 'preview',
 				'label' => 'Превью',
 				'format' => 'html',
-				'value' => function($model){ return Html::a(Html::img($model->getMediaThumbnailURI()), Url::to(['media/update', 'id' => $model->id]));}
+				'value' => function($model){ return Html::a(Html::img($model->getMediaThumbnailURI('100x100')), Url::to(['media/update', 'id' => $model->id]));}
 			],
 			[
 				'attribute' => 'file_name',

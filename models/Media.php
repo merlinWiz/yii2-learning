@@ -35,6 +35,7 @@ class Media extends \yii\db\ActiveRecord
         return [
             ['user_id', 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             ['category_id', 'exist', 'skipOnError' => true, 'targetClass' => MediaCategory::className(), 'targetAttribute' => ['category_id' => 'id']],
+            ['file_name', 'string'],
         ];
     }
 
@@ -147,12 +148,16 @@ class Media extends \yii\db\ActiveRecord
 	    return UploadForm::isImage($this->getFullMediaPath());
     }
 
-	public function getMediaThumbnailURI()
+	public function getMediaThumbnailURI($size)
 	{
 		if( $this->isImage() ) {
-			return $this->getImageThumbnailURI('100x100');
+			return $this->getImageThumbnailURI($size);
 		} else {
 			return $this->getMediaCoverURI();
 		}
+	}
+	public function getMediaURI()
+	{
+		return $this->getUploadsURI() . $this->getMedia();
 	}
 }

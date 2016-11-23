@@ -12,13 +12,9 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'user_id')->textInput() ?>
-
-    <?= $form->field($model, 'category_id')->textInput() ?>
+	<?= $form->field($model, 'category_id')->dropDownList($model->listMediaCategories(), [ 'prompt' => 'Не выбрано']) ?>
 
     <?= $form->field($model, 'file_name')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'upload_time')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Upload' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
