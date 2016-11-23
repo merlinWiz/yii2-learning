@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use app\models\MediaCategory;
@@ -39,9 +40,13 @@ $this->params['breadcrumbs'][] = $this->title;
 				'attribute' => 'preview',
 				'label' => 'Превью',
 				'format' => 'html',
-				'value' => function($model){ return Html::img($model->getMediaThumbnailURI());}
+				'value' => function($model){ return Html::a(Html::img($model->getMediaThumbnailURI()), Url::to(['media/update', 'id' => $model->id]));}
 			],
-			'file_name',
+			[
+				'attribute' => 'file_name',
+				'format' => 'html',
+				'value' => function($model){ return Html::a($model->file_name, Url::to(['media/update', 'id' => $model->id]));},
+			],
             [
 	            'attribute' => 'user',
 	            'label' => 'Пользователь',
@@ -55,7 +60,10 @@ $this->params['breadcrumbs'][] = $this->title;
 	            'filter' => MediaCategory::itemsTree()
             ],
             'upload_time',
-			['class' => 'yii\grid\ActionColumn'],
+			[
+				'class' => 'yii\grid\ActionColumn',
+				'template' => '{delete}',
 			],
+		],
     ]) ?>
 <?php Pjax::end(); ?></div>
