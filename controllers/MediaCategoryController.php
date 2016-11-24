@@ -74,6 +74,23 @@ class MediaCategoryController extends Controller
         }
     }
 
+    public function actionAjaxCreate()
+    {
+		$request = Yii::$app->request;
+		if ($request->isAjax && $request->isPost) {
+			Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+			
+			$data = $request->post();
+			$model = new MediaCategory();
+			if($model->load($data) && $model->save()) {
+		        return ['status' => 'success', 'id' => $model->id];
+			} else {
+		        return ['status' => 'error'];
+			}
+			
+		}
+    }
+
     /**
      * Updates an existing MediaCategory model.
      * If update is successful, the browser will be redirected to the 'view' page.
