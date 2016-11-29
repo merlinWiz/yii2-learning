@@ -10,9 +10,7 @@ $config = [
     'app\components\Aliases',
     ],
     'modules' => [
-	    'blog' => [
-		    'class' => 'app\modules\blog\Module',
-	    ],
+
     ],
     'components' => [
 	    'authManager' => [
