@@ -48,3 +48,38 @@ $('#add_new_category').on('click', function(){
 		});
 	}
 });
+
+function registerMediaClick(){
+	$('.media_src').on('click', function(event){ 
+		event.preventDefault();
+		var item_url = $(this).attr('href');
+		document.getElementById(mediaBrowser.editorInput).value = item_url;
+		$('#mediaModal').modal('hide');
+	});
+}
+
+$(document).on('pjax:success', function() {	
+	registerMediaClick();
+});
+
+$(document).ready(function(){
+	loadMediaBrowser();
+});
+
+function loadMediaBrowser(){
+		var csrfToken = $('meta[name="csrf-token"]').attr("content");
+		$.post( "index.php?r=media/index", {_csrf: csrfToken}, function( data ) {
+			$('#mediaModal .modal-body').html(data);
+			$('#mediaModal').css('z-index', 65537);
+			registerMediaClick();
+		});
+}
+
+var mediaBrowser = {
+	init: function(fieldName){
+		mediaBrowser.editorInput = fieldName;
+		$('#mediaModal').modal('show');
+		return false;
+	}
+}
+

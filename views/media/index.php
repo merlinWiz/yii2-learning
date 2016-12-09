@@ -19,51 +19,10 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="media-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<?= $this->render('_index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]) 
+?>
 
-    <p>
-        <?= Html::a('Upload Media', ['upload'], ['class' => 'btn btn-success']) ?>
-    </p>
-    <p>
-        <?= Html::a('Delete Selected', ['batchDelete'], ['class' => 'btn', 'id' => 'batchMediaDelete']) ?>
-    </p>
-<?php Pjax::begin([
-		'id' => 'mediaGridPjax',
-	]); ?>
-<?= GridView::widget([
-		'id' => 'mediaGrid',
-        'dataProvider' => $dataProvider,
-	    'filterModel' => $searchModel,
-		'columns' => [
-			['class' => 'yii\grid\CheckboxColumn'],
-			[
-				'attribute' => 'preview',
-				'label' => 'Превью',
-				'format' => 'html',
-				'value' => function($model){ return Html::a(Html::img($model->getMediaThumbnailURI('100x100')), Url::to(['media/update', 'id' => $model->id]));}
-			],
-			[
-				'attribute' => 'file_name',
-				'format' => 'html',
-				'value' => function($model){ return Html::a($model->file_name, Url::to(['media/update', 'id' => $model->id]));},
-			],
-            [
-	            'attribute' => 'user',
-	            'label' => 'Пользователь',
-	            'value' => 'user.username',
-	            'filter' => User::users()
-            ],
-            [
-	            'attribute' => 'category',
-	            'label' => 'Категория',
-	            'value' => 'category.title',
-	            'filter' => MediaCategory::itemsTree()
-            ],
-            'upload_time',
-			[
-				'class' => 'yii\grid\ActionColumn',
-				'template' => '{delete}',
-			],
-		],
-    ]) ?>
-<?php Pjax::end(); ?></div>
+</div>

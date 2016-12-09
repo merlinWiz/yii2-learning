@@ -23,7 +23,6 @@ $this->params['breadcrumbs'][] = $this->title;
             	'value' => $model->author->username,
             ],
             'title:ntext',
-            'content:ntext',
             [
 				'label' => 'Status',
 				'value' => $model->status->name,	            
@@ -32,5 +31,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'create_time',
         ],
     ]) ?>
+
+	<p class="post-content">
+		<?= $model->content ?>
+	</p>
 
 </div>

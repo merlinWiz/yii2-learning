@@ -44,19 +44,31 @@ class MediaController extends Controller
         ];
     }
 
+
     /**
      * Lists all Media models.
      * @return mixed
      */
     public function actionIndex()
     {
+		$request = Yii::$app->request;
         $searchModel = new MediaSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search($request->queryParams);
+		
+		if($request->isAjax && $request->isPost){
+	        
+	        return $this->renderAjax('_index', [
+	            'searchModel' => $searchModel,
+	            'dataProvider' => $dataProvider,
+	        ]);
+		} else {
+	        return $this->render('index', [
+	            'searchModel' => $searchModel,
+	            'dataProvider' => $dataProvider,
+	        ]);
+		}
+		
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
     }
 
     /**
