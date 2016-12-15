@@ -54,6 +54,7 @@ class MediaSearch extends Media
 		            'upload_time' => SORT_DESC,
 	            ],
 	        ],
+	        'pagination' => ['defaultPageSize' => 5],
         ]);
 
 		$query->joinWith(['category', 'user']);
