@@ -22,6 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <?= $this->render('_index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+	        'selectButton' => false,
         ]) 
 ?>
 

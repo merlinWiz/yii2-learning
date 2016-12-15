@@ -60,6 +60,7 @@ class MediaController extends Controller
 	        return $this->renderAjax('_index', [
 	            'searchModel' => $searchModel,
 	            'dataProvider' => $dataProvider,
+	            'selectButton' => true,
 	        ]);
 		} else {
 	        return $this->render('index', [

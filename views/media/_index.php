@@ -28,12 +28,12 @@ use app\models\User;
 				'attribute' => 'preview',
 				'label' => 'Превью',
 				'format' => 'raw',
-				'value' => function($model){ return Html::a(Html::img($model->getMediaThumbnailURI('100x100')), Url::to(['media/update', 'id' => $model->id]), ['data' => [ 'pjax' => 0]]);}
+				'value' => function($model){ return Html::a(Html::img($model->getMediaThumbnailURI('100x100')), Url::to(['media/update', 'id' => $model->id]), ['target' => '_blank', 'data' => [ 'pjax' => 0]]);}
 			],
 			[
 				'attribute' => 'file_name',
 				'format' => 'raw',
-				'value' => function($model){ return Html::a($model->file_name, Url::to(['media/update', 'id' => $model->id]), ['data' => ['pjax' => 0]]);},
+				'value' => function($model){ return Html::a($model->file_name, Url::to(['media/update', 'id' => $model->id]), ['target' => '_blank', 'data' => ['pjax' => 0]]);},
 			],
             [
 	            'attribute' => 'user',
@@ -50,7 +50,7 @@ use app\models\User;
             'upload_time',
 			[
 				'class' => 'yii\grid\ActionColumn',
-				'template' => '{select} {delete}',
+				'template' => ($selectButton ? '{select} ' : '{update} ') . '{delete}',
 				'buttons' => [
 					'select' => function($url, $model, $key){ return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-plus"]), $model->getMediaURI(), ['class' => 'media_src', 'data' => ['pjax' => 0]]);}
 				]
