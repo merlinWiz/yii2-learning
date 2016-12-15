@@ -6,10 +6,11 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 use app\models\MediaCategory;
 use app\models\User;
+use yii\bootstrap\Modal;
 
 ?>
     <p>
-        <?= Html::a('Upload Media', ['upload'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Upload Media', ['upload'], ['id' => 'mediaUploadButton', 'class' => 'btn btn-success']) ?>
     </p>
 <?php Pjax::begin([
 		'id' => 'mediaGridPjax',
@@ -49,3 +50,5 @@ use app\models\User;
 		],
     ]) ?>
 <?php Pjax::end(); ?>
+
+<?php Modal::begin(['header' => '<h3>Media Upload</h3>', 'id' => 'mediaUploadModal', 'size' => 'modal-md']); Modal::end(); ?>

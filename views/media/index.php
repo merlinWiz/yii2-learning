@@ -6,6 +6,7 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 use app\models\MediaCategory;
 use app\models\User;
+use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\MediaSearch */
@@ -20,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="media-index">
 
     <p>
-        <?= Html::a('Upload Media', ['upload'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Upload Media', ['upload'], ['id' => 'mediaUploadButton', 'class' => 'btn btn-success']) ?>
     </p>
     <p>
         <?= Html::a('Delete Selected', ['batchDelete'], ['class' => 'btn', 'id' => 'batchMediaDelete']) ?>
@@ -72,3 +73,4 @@ $this->params['breadcrumbs'][] = $this->title;
 
 </div>
 
+<?php Modal::begin(['header' => '<h3>Media Upload</h3>', 'id' => 'mediaUploadModal', 'size' => 'modal-md']); Modal::end(); ?>

@@ -92,17 +92,15 @@ class MediaController extends Controller
 	public function actionUpload()
 	{
 	    $model = new UploadForm();
-	
-	    if ($model->load(Yii::$app->request->post())) {
+		$request = Yii::$app->request;
+		$status = false;
+		
+	    if ($model->load($request->post())) {
 		    $model->files = UploadedFile::getInstances($model, 'files');
-	        if ($model->upload()) {
-	            // form inputs are valid, do something here
-	            
-	            return $this->redirect(['index']);
-	        }
+			$model->upload();
 	    }
 	
-	    return $this->render('upload', [
+	    return $this->renderAjax('upload', [
 	        'model' => $model,
 	    ]);
 	}
