@@ -36,23 +36,16 @@ use app\models\User;
 				'value' => function($model){ return Html::a($model->file_name, Url::to(['media/update', 'id' => $model->id]), ['target' => '_blank', 'data' => ['pjax' => 0]]);},
 			],
             [
-	            'attribute' => 'user',
-	            'label' => 'Пользователь',
-	            'value' => 'user.username',
-	            'filter' => User::users()
-            ],
-            [
 	            'attribute' => 'category',
 	            'label' => 'Категория',
 	            'value' => 'category.title',
 	            'filter' => MediaCategory::itemsTree()
             ],
-            'upload_time',
 			[
 				'class' => 'yii\grid\ActionColumn',
-				'template' => ($selectButton ? '{select} ' : '{update} ') . '{delete}',
+				'template' => '{select} {delete}',
 				'buttons' => [
-					'select' => function($url, $model, $key){ return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-plus"]), $model->getMediaURI(), ['class' => 'media_src', 'data' => ['pjax' => 0]]);}
+					'select' => function($url, $model, $key){ return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-plus"]), $model->getMediaURI(), ['class' => 'media_src', 'data' => ['pjax' => 0]]);},
 				]
 			],
 		],

@@ -55,20 +55,25 @@ class MediaController extends Controller
         $searchModel = new MediaSearch();
         $dataProvider = $searchModel->search($request->queryParams);
 		
-		if($request->isAjax && $request->isPost){
-	        
-	        return $this->renderAjax('_index', [
-	            'searchModel' => $searchModel,
-	            'dataProvider' => $dataProvider,
-	            'selectButton' => true,
-	        ]);
-		} else {
-	        return $this->render('index', [
-	            'searchModel' => $searchModel,
-	            'dataProvider' => $dataProvider,
-	        ]);
-		}
+	    return $this->render('index', [
+	        'searchModel' => $searchModel,
+	        'dataProvider' => $dataProvider,
+	    ]);
 		
+    }
+
+    public function actionIndexAjax()
+    {
+		$request = Yii::$app->request;
+        $searchModel = new MediaSearch();
+        $dataProvider = $searchModel->search($request->queryParams);
+		
+		if($request->isAjax){
+		    return $this->renderAjax('indexAjax', [
+		        'searchModel' => $searchModel,
+		        'dataProvider' => $dataProvider,
+		    ]);
+		}		
 
     }
 
@@ -130,7 +135,7 @@ class MediaController extends Controller
     public function actionDelete($id)
     {
 		$this->deleteModel($id);
-        return $this->redirect(['index']);
+		
     }
 
 	public function actionBatchDelete()

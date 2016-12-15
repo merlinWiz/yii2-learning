@@ -68,7 +68,7 @@ $(document).ready(function(){
 
 function loadMediaBrowser(){
 		var csrfToken = $('meta[name="csrf-token"]').attr("content");
-		$.post( "index.php?r=media/index", {_csrf: csrfToken}, function( data ) {
+		$.post( "index.php?r=media/index-ajax", {_csrf: csrfToken}, function( data ) {
 			$('#mediaModal .modal-body').html(data);
 			$('#mediaModal').css('z-index', 65537);
 			registerMediaClick();
