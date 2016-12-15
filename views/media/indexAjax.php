@@ -6,12 +6,10 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 use app\models\MediaCategory;
 use app\models\User;
+
 ?>
     <p>
         <?= Html::a('Upload Media', ['upload'], ['class' => 'btn btn-success']) ?>
-    </p>
-    <p>
-        <?= Html::a('Delete Selected', ['batchDelete'], ['class' => 'btn', 'id' => 'batchMediaDelete']) ?>
     </p>
 <?php Pjax::begin([
 		'id' => 'mediaGridPjax',
@@ -23,7 +21,6 @@ use app\models\User;
         'dataProvider' => $dataProvider,
 	    'filterModel' => $searchModel,
 		'columns' => [
-			['class' => 'yii\grid\CheckboxColumn'],
 			[
 				'attribute' => 'preview',
 				'label' => 'Превью',
@@ -46,6 +43,7 @@ use app\models\User;
 				'template' => '{select} {delete}',
 				'buttons' => [
 					'select' => function($url, $model, $key){ return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-plus"]), $model->getMediaURI(), ['class' => 'media_src', 'data' => ['pjax' => 0]]);},
+					'delete' => function($url, $model, $key){return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-trash"]), $url, ['class' => 'mediaDelete', 'title' => 'delete', 'aria-label' => 'delete', 'data' => ['pjax' => 'mediaGridPjax', 'method' => 'post', 'confirm' => 'Are you sure you want to delete this item?']]);},
 				]
 			],
 		],

@@ -94,7 +94,6 @@ class Media extends \yii\db\ActiveRecord
 		    }
 		}
 	    unlink($this->getFullMediaPath());
-
     }
 
     public function getFullMediaPath()

@@ -27,7 +27,6 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 <?php Pjax::begin([
 		'id' => 'mediaGridPjax',
-		'enablePushState' => false,
 		'timeout' => 3000,
 	]); ?>
 <?= GridView::widget([
@@ -63,6 +62,9 @@ $this->params['breadcrumbs'][] = $this->title;
 			[
 				'class' => 'yii\grid\ActionColumn',
 				'template' => '{update} {delete}',
+				'buttons' => [
+					'delete' => function($url, $model, $key){return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-trash"]), $url, ['class' => 'mediaDelete', 'title' => 'delete', 'aria-label' => 'delete', 'data' => ['pjax' => 'mediaGridPjax', 'method' => 'post', 'confirm' => 'Are you sure you want to delete this item?']]);},
+				],
 			],
 		],
     ]) ?>

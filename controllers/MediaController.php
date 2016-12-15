@@ -136,6 +136,15 @@ class MediaController extends Controller
     {
 		$this->deleteModel($id);
 		
+		$request = Yii::$app->request;
+        $searchModel = new MediaSearch();
+        $dataProvider = $searchModel->search($request->queryParams);
+		
+	    return $this->render('index', [
+	        'searchModel' => $searchModel,
+	        'dataProvider' => $dataProvider,
+	    ]);
+
     }
 
 	public function actionBatchDelete()
@@ -170,8 +179,8 @@ class MediaController extends Controller
 	{
 	    $model = $this->findModel($id);
 	    
-        $model->deleteMedia();
-        $model->delete();
+	    $model->deleteMedia();
+	    $model->delete();
 	}
 	
     /**
