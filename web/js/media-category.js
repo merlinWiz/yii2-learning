@@ -1,5 +1,4 @@
 
-$('#category_add').hide();
 $('#show_add_new_category').click(function(event){
 	event.preventDefault();
 	$('#category_add').toggle();

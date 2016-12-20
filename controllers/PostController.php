@@ -10,6 +10,7 @@ use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 use app\models\Post;
 use app\models\PostSearch;
+use app\models\UploadForm;
 
 /**
  * PostController implements the CRUD actions for Post model.
@@ -153,12 +154,14 @@ class PostController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+		$uploadModel = new UploadForm();
+		
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
         	return $this->refresh();
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'uploadModel' => $uploadModel,
             ]);
         }
     }

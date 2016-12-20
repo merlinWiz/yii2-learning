@@ -45,4 +45,37 @@ $this->registerJsFile('@web/js/main.js', ['depends' => [\yii\web\JqueryAsset::cl
 
 </div>
 
-<?php Modal::begin(['header' => '<h3>Media Browser</h3>', 'id' => 'mediaModal', 'size' => 'modal-lg']); Modal::end(); ?>
+<?php Modal::begin(['header' => '<h3>Media Browser</h3>', 'id' => 'mediaModal', 'size' => 'modal-lg']);?>
+    <p>
+        <?= Html::a('Добавить файл', ['upload'], ['id' => 'mediaUploadButton', 'class' => 'btn btn-primary']) ?>
+    </p>
+
+	<div class="media-upload" id="mediaUploadContainer" style="display: none;">
+	    <?php $form = ActiveForm::begin([
+		    'action' => ['media/upload'],
+		    'options' => [
+		    	'id' => 'mediaUploadForm', 
+		    	'enctype' => 'multipart/form-data',
+		    	]
+		    ]); ?>
+			<?= $form->field($uploadModel, 'files[]')->fileInput(['id' => 'mediaInput', 'multiple' => true]) ?>
+	 
+			<?= $form->field($uploadModel, 'category_id', ['enableAjaxValidation' => true])->dropDownList($uploadModel->listMediaCategories(), [ 'prompt' => 'Не выбрано']) ?>
+<!--
+			<p>
+				<?= Html::button('Добавить новую категорию', ['id' => 'show_add_new_category', 'class' => 'btn btn-primary']) ?>
+			</p>
+-->
+			<p id="category_add" style="display: none;">
+				<?= Html::textInput('added_category_title') ?>
+				<?= Html::dropDownList('added_category_parent', null, $uploadModel->listMediaCategories(), [ 'prompt' => 'Родительская категория']) ?>
+				<?= Html::button('Добавить', ['id' => 'add_new_category', 'class' => 'btn btn-success']) ?>
+			</p>   
+	        <div class="form-group">
+	            <?= Html::submitButton('Загрузить', ['class' => 'btn btn-success', 'id' => 'mediaUploadSubmit']) ?>
+	        </div>
+	    <?php ActiveForm::end(); ?>
+	</div><!-- media-upload -->
+	
+	<div class="gridContainer"></div>
+<?php Modal::end(); ?>

@@ -9,7 +9,6 @@ $('#batchMediaDelete').on('click',function(event) {
 	       success: function(data) {
 	          if (data.status === 'success') {
 		          $.pjax.reload({container:'#mediaGridPjax'});
-	              alert('Selected media was deleted!');
 	          } else if(data.status === 'error') {
 	              alert('Selected media was not deleted!');
 	          }
@@ -29,24 +28,45 @@ function registerMediaClick(){
 	});
 }
 
-function registerMediaUploadClick(){
-	$('#mediaUploadButton').on('click', function(event){
-		event.preventDefault();
-		$('#mediaUploadModal').modal('show');
-	});
-}
-
 
 $(document).ready(function(){
-
-	if($('#mediaUploadModal').length){
-		
-		loadMediaUploader();
-		
-		registerMediaUploadClick();
-		
-		$('#mediaUploadModal').on('hide.bs.modal', function(){
-			$.pjax.reload({container:'#mediaGridPjax'});
+	
+	if($('#mediaUploadContainer').length){
+		$('#mediaUploadButton').on('click', function(event){
+			event.preventDefault();
+			$('#mediaUploadContainer').toggle();
+		});
+				
+		$('#mediaUploadForm').on('beforeSubmit', function(event){
+			event.preventDefault();
+			var form = $(this);
+			var mediaInput = document.getElementById('mediaInput');
+			var files = mediaInput.files;
+			var formData = new FormData(form[0]);
+			$.each(files, function(key, file){
+				formData.append('files[]', file, file.name);
+			});
+			if(!form.find('.has-error').length){
+				$.post({
+					url: 'index.php?r=media/upload',
+					data: formData,
+					cache: false,
+					processData: false,
+					contentType: false,
+					success: function(data){
+						if(data.status === 'success'){
+// 							console.log(data.post);
+							$.pjax.reload({container:'#mediaGridPjax', url: 'index.php?r=media/index-ajax'});
+							mediaInput.value = '';
+						} else {
+// 							console.log(data);
+						}
+												
+					},
+					error: function(jqXHR, textStatus, errorThrown){console.log('ERRORS: ' + errorThrown);}
+				});
+			}
+			return false;
 		});
 	}
 
@@ -60,21 +80,12 @@ $(document).ready(function(){
 	
 });
 
-function loadMediaUploader(){
-		var csrfToken = $('meta[name="csrf-token"]').attr("content");
-		$.post( "index.php?r=media/upload", {_csrf: csrfToken}, function( data ) {
-			$('#mediaUploadModal .modal-body').html(data);
-		});
-}
-
 function loadMediaBrowser(){
 		var csrfToken = $('meta[name="csrf-token"]').attr("content");
 		$.post( "index.php?r=media/index-ajax", {_csrf: csrfToken}, function( data ) {
-			$('#mediaModal .modal-body').html(data);
+			$('#mediaModal .gridContainer').html(data);
 			$('#mediaModal').css('z-index', 65537);
-			loadMediaUploader();
 			registerMediaClick();
-			registerMediaUploadClick();
 		});
 }
 

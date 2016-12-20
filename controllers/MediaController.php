@@ -12,6 +12,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\Json;
+use yii\widgets\ActiveForm;
+use yii\web\Response;
 
 /**
  * MediaController implements the CRUD actions for Media model.
@@ -52,10 +54,12 @@ class MediaController extends Controller
     public function actionIndex()
     {
 		$request = Yii::$app->request;
+        $uploadModel = new UploadForm();
         $searchModel = new MediaSearch();
         $dataProvider = $searchModel->search($request->queryParams);
 		
 	    return $this->render('index', [
+		    'uploadModel' => $uploadModel,
 	        'searchModel' => $searchModel,
 	        'dataProvider' => $dataProvider,
 	    ]);
@@ -65,11 +69,13 @@ class MediaController extends Controller
     public function actionIndexAjax()
     {
 		$request = Yii::$app->request;
+        $uploadModel = new UploadForm();
         $searchModel = new MediaSearch();
         $dataProvider = $searchModel->search($request->queryParams);
 		
 		if($request->isAjax){
 		    return $this->renderAjax('indexAjax', [
+		    	'uploadModel' => $uploadModel,
 		        'searchModel' => $searchModel,
 		        'dataProvider' => $dataProvider,
 		    ]);
@@ -91,18 +97,21 @@ class MediaController extends Controller
 
 	public function actionUpload()
 	{
-	    $model = new UploadForm();
 		$request = Yii::$app->request;
-		$status = false;
+	    $model = new UploadForm();
+		Yii::$app->response->format = Response::FORMAT_JSON;
 		
-	    if ($model->load($request->post())) {
-		    $model->files = UploadedFile::getInstances($model, 'files');
-			$model->upload();
+	    if ($request->isAjax && $model->load($request->post())) {
+		    $model->files = UploadedFile::getInstances($model, 'files');			
+
+			if($model->upload()){
+				return ['status' => 'success', 'post' => $request->post()];
+			} else {
+				return ActiveForm::validate($model);
+			}
+			
 	    }
 	
-	    return $this->renderAjax('upload', [
-	        'model' => $model,
-	    ]);
 	}
 	
     /**
@@ -137,10 +146,12 @@ class MediaController extends Controller
 		$request = Yii::$app->request;
         $searchModel = new MediaSearch();
         $dataProvider = $searchModel->search($request->queryParams);
+		$uploadModel = new UploadForm();
 		
 	    return $this->render('index', [
 	        'searchModel' => $searchModel,
 	        'dataProvider' => $dataProvider,
+	        'uploadModel' => $uploadModel,
 	    ]);
 
     }
