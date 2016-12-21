@@ -66,16 +66,14 @@ class MediaController extends Controller
 		
     }
 
-    public function actionIndexAjax()
+    public function actionIndexModal()
     {
 		$request = Yii::$app->request;
-        $uploadModel = new UploadForm();
         $searchModel = new MediaSearch();
         $dataProvider = $searchModel->search($request->queryParams);
 		
 		if($request->isAjax){
-		    return $this->renderAjax('indexAjax', [
-		    	'uploadModel' => $uploadModel,
+		    return $this->renderAjax('indexModal', [
 		        'searchModel' => $searchModel,
 		        'dataProvider' => $dataProvider,
 		    ]);
@@ -165,7 +163,7 @@ class MediaController extends Controller
         $dataProvider = $searchModel->search($request->queryParams);
 		
 		if($request->isAjax){
-		    return $this->renderAjax('indexAjax', [
+		    return $this->renderAjax('indexModal', [
 		        'searchModel' => $searchModel,
 		        'dataProvider' => $dataProvider,
 		    ]);

@@ -56,7 +56,7 @@ $(document).ready(function(){
 					success: function(data){
 						if(data.status === 'success'){
 // 							console.log(data.post);
-							$.pjax.reload({container:'#mediaGridPjax', url: 'index.php?r=media/index-ajax'});
+							$.pjax.reload({container: '#mediaGridPjax', url: 'index.php?r=media/index-modal'});
 							mediaInput.value = '';
 						} else {
 // 							console.log(data);
@@ -82,7 +82,7 @@ $(document).ready(function(){
 
 function loadMediaBrowser(){
 		var csrfToken = $('meta[name="csrf-token"]').attr("content");
-		$.post( "index.php?r=media/index-ajax", {_csrf: csrfToken}, function( data ) {
+		$.post( "index.php?r=media/index-modal", {_csrf: csrfToken}, function( data ) {
 			$('#mediaModal .gridContainer').html(data);
 			$('#mediaModal').css('z-index', 65537);
 			registerMediaClick();
@@ -93,6 +93,7 @@ var mediaBrowser = {
 	init: function(fieldName){
 		mediaBrowser.editorInput = fieldName;
 		$('#mediaModal').modal('show');
+// 		window.location.href = 'index.php?r=media/index-modal';
 		return false;
 	}
 }
