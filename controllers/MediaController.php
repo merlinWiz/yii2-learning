@@ -156,6 +156,23 @@ class MediaController extends Controller
 
     }
 
+    public function actionDeleteModal($id)
+    {
+		$this->deleteModel($id);
+		
+		$request = Yii::$app->request;
+        $searchModel = new MediaSearch();
+        $dataProvider = $searchModel->search($request->queryParams);
+		
+		if($request->isAjax){
+		    return $this->renderAjax('indexAjax', [
+		        'searchModel' => $searchModel,
+		        'dataProvider' => $dataProvider,
+		    ]);
+		}		
+
+    }
+
 	public function actionBatchDelete()
 	{
 		$request = Yii::$app->request;

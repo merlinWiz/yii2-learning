@@ -40,10 +40,10 @@ use yii\widgets\ActiveForm;
             ],
 			[
 				'class' => 'yii\grid\ActionColumn',
-				'template' => '{select} {delete}',
+				'template' => '{select} {delete-modal}',
 				'buttons' => [
 					'select' => function($url, $model, $key){ return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-plus"]), $model->getMediaURI(), ['class' => 'media_src', 'data' => ['pjax' => 0]]);},
-					'delete' => function($url, $model, $key){return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-trash"]), $url, ['class' => 'mediaDelete', 'title' => 'delete', 'aria-label' => 'delete', 'data' => ['pjax' => 'mediaGridPjax', 'method' => 'post', 'confirm' => 'Are you sure you want to delete this item?']]);},
+					'delete-modal' => function($url, $model, $key){return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-trash"]), $url, ['class' => 'mediaDelete', 'title' => 'delete', 'aria-label' => 'delete', 'data' => ['pjax' => 'mediaGridPjax', 'method' => 'post', 'confirm' => 'Are you sure you want to delete this item?']]);},
 				]
 			],
 		],
