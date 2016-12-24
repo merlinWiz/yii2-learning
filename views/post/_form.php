@@ -77,5 +77,5 @@ $this->registerJsFile('@web/js/main.js', ['depends' => [\yii\web\JqueryAsset::cl
 	    <?php ActiveForm::end(); ?>
 	</div><!-- media-upload -->
 	
-	<div class="gridContainer"></div>
+	<div id="mediaGridPjax"></div>
 <?php Modal::end(); ?>
