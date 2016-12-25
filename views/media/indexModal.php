@@ -5,9 +5,6 @@ use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use app\models\MediaCategory;
-use app\models\User;
-use yii\web\JqueryAsset;
-use yii\widgets\ActiveForm;
 
 ?>
 
@@ -42,7 +39,7 @@ use yii\widgets\ActiveForm;
 				'class' => 'yii\grid\ActionColumn',
 				'template' => '{select} {delete-modal}',
 				'buttons' => [
-					'select' => function($url, $model, $key){ return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-plus"]), $model->getMediaURI(), ['class' => 'media_src', 'data' => ['pjax' => 0]]);},
+					'select' => function($url, $model, $key){ return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-plus"]), $model->getMediaURI(), ['onclick' => 'mediaSelectModal(this)', 'data' => ['pjax' => 0]]);},
 					'delete-modal' => function($url, $model, $key){return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-trash"]), $url, ['class' => 'mediaDelete', 'title' => 'delete', 'aria-label' => 'delete', 'data' => ['pjax' => 'mediaGridPjax', 'method' => 'post', 'confirm' => 'Are you sure you want to delete this item?']]);},
 				]
 			],

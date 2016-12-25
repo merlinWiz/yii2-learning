@@ -1,11 +1,9 @@
 
-function registerMediaClick(){
-	$('.media_src').on('click', function(event){ 
-		event.preventDefault();
-		var item_url = $(this).attr('href');
-		document.getElementById(mediaBrowser.editorInput).value = item_url;
-		$('#mediaModal').modal('hide');
-	});
+function mediaSelectModal(link){
+	event.preventDefault();
+	var item_url = link.href;
+	document.getElementById(mediaBrowser.editorInput).value = item_url;
+	$('#mediaModal').modal('hide');
 }
 
 
@@ -15,9 +13,9 @@ $(document).ready(function(){
 		$('#batchMediaDelete').on('click',function(event) {
 			event.preventDefault();
 			if(confirm('Are you sure you want to delete these items?')){
-			    var keys = $('#mediaGrid').yiiGridView('getSelectedRows'); // returns an array of pkeys, and #grid is your grid element id
+			    var keys = $('#mediaGrid').yiiGridView('getSelectedRows');
 			    $.post({
-			       url: 'index.php?r=media/batch-delete', // your controller action
+			       url: 'index.php?r=media/batch-delete',
 			       dataType: 'json',
 			       data: {keys: keys},
 			       success: function(data) {
@@ -77,7 +75,6 @@ $(document).ready(function(){
 		var mediaUrlPostfix = '-modal';
 		loadMediaBrowser();
 		$(document).on('pjax:success', function() {	
-			registerMediaClick();
 		});
 	}
 	
@@ -89,7 +86,6 @@ function loadMediaBrowser(){
 		$.post( "index.php?r=media/index-modal", {_csrf: csrfToken}, function( data ) {
 			$('#mediaGridPjax').replaceWith(data);
 			$('#mediaModal').css('z-index', 65537);
-			registerMediaClick();
 		});
 }
 
