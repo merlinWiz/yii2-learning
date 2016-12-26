@@ -103,9 +103,9 @@ class MediaController extends Controller
 		    $model->files = UploadedFile::getInstances($model, 'files');			
 
 			if($model->upload()){
-				return ['status' => 'success', 'post' => $request->post()];
+				return ['status' => 'success', 'errors' => $model->getErrors()];
 			} else {
-				return ActiveForm::validate($model);
+				return ['status' => 'errors', 'errors' => $model->getErrors()];
 			}
 			
 	    }

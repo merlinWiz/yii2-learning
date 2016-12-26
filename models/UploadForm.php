@@ -74,26 +74,27 @@ class UploadForm extends Model
 				$extension = $file->extension;
 				$file_name = $md5_file . '.' . $extension;
 				$save_path = $path . DIRECTORY_SEPARATOR . $file_name;
+									
+				$media = new Media();
+				$media->category_id = $this->category_id;
+				$media->path = $date_path;
+				$media->file_name = $file->baseName . '.' . $extension;
+				$media->md5 = $md5_file;
+				$media->extension = $extension;
 				
-				if($file->saveAs($save_path)){
-					
-					$media = new Media();
-					$media->category_id = $this->category_id;
-					$media->path = $date_path;
-					$media->file_name = $file->baseName . '.' . $extension;
-					$media->md5 = $md5_file;
-					$media->extension = $extension;
-					
-					$media->save();
-				}
-				
-				if(self::isImage($save_path)){
-					foreach(self::getThumbnailSizes() as $size) {
-
-						Image::thumbnail($save_path, $size['width'], $size['height'])->save($path . DIRECTORY_SEPARATOR . $md5_file . '_' . $size['title'] . '.' . $extension);
+				if($media->validate()){
+					if($file->saveAs($save_path)){
+						$media->save(false);
+						if(self::isImage($save_path)){
+							foreach(self::getThumbnailSizes() as $size) {
+								Image::thumbnail($save_path, $size['width'], $size['height'])->save($path . DIRECTORY_SEPARATOR . $md5_file . '_' . $size['title'] . '.' . $extension);
+							}
+						}
 					}
-					
+				} else {
+					$this->addError('upload', $media->file_name);
 				}
+				
 			}
 			return true;
 		} else {
