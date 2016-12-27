@@ -105,9 +105,11 @@ class MediaController extends Controller
 			if($model->upload()){
 				return ['status' => 'success', 'errors' => $model->getErrors()];
 			} else {
-				return ['status' => 'errors', 'errors' => $model->getErrors()];
+				return ActiveForm::validate($model);
 			}
 			
+	    } else {
+		    return ['status' => 'errors', 'errors' => $model->getErrors(), 'post' => $request->post()];
 	    }
 	
 	}

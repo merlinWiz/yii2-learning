@@ -56,22 +56,27 @@ $(document).ready(function(){
 					processData: false,
 					contentType: false,
 					success: function(data){
+						console.log(data);
 						$('#upload-errors').remove();
 						if(data.status === 'success'){
 							var mediaIndexUrl = 'index.php?r=media/index' + (typeof mediaUrlPostfix !== 'undefined' ? mediaUrlPostfix : '');
 							$.pjax({url: mediaIndexUrl, container: '#mediaGridPjax', push: false});
 							mediaInput.value = '';
 						}
-						
-						if(data.errors.upload){
+												
+						if(data.errors.media){
 							$('#mediaUploadForm').append('<div id="upload-errors" class="alert alert-danger"><h5>Ошибки при загрузке файлов: </h5><ul></ul></div>');
-							$.each(data.errors.upload, function(index, value){
-								$('#upload-errors ul').prepend('<li>' + value + '</li>');
+							$.each(data.errors.media, function(index, error){
+								var details = '';
+								$.each(error.details, function(key, detail){
+									details += '<p>– ' + detail[0] + '</p>';
+								});
+								$('#upload-errors ul').prepend('<li><h6>' + error.file + '</h6>' + details + '</li>');
 							});
 						}
 												
 					},
-					error: function(jqXHR, textStatus, errorThrown){console.log('ERRORS: ' + errorThrown);}
+					error: function(jqXHR, textStatus, errorThrown){console.log('ERRORS: ' + errorThrown); console.log(jqXHR);}
 				});
 			}
 			return false;

@@ -40,7 +40,7 @@ class UploadForm extends Model
 				'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 
 				'application/vnd.ms-powerpointtd', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
 				],
-			'maxSize' => 1024*1024*8, 'maxFiles' => 20],
+			'maxFiles' => 50],
             ['category_id', 'exist', 'skipOnError' => true, 'targetClass' => MediaCategory::className(), 'targetAttribute' => ['category_id' => 'id']],
 		];
 	}
@@ -82,17 +82,18 @@ class UploadForm extends Model
 				$media->md5 = $md5_file;
 				$media->extension = $extension;
 				
-				if($media->validate()){
-					if($file->saveAs($save_path)){
-						$media->save(false);
+				if($media->validate() && $media->save(false)){
+					if(!file_exists($save_path) && $file->saveAs($save_path)){
 						if(self::isImage($save_path)){
 							foreach(self::getThumbnailSizes() as $size) {
 								Image::thumbnail($save_path, $size['width'], $size['height'])->save($path . DIRECTORY_SEPARATOR . $md5_file . '_' . $size['title'] . '.' . $extension);
 							}
 						}
+					} else {
+						$media->delete();
 					}
 				} else {
-					$this->addError('upload', $media->file_name);
+					$this->addError('media', ['file' => $media->file_name, 'details' => $media->getErrors()]);
 				}
 				
 			}

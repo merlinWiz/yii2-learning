@@ -35,8 +35,8 @@ class Media extends \yii\db\ActiveRecord
         return [
             ['user_id', 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             ['category_id', 'exist', 'skipOnError' => true, 'targetClass' => MediaCategory::className(), 'targetAttribute' => ['category_id' => 'id']],
-            ['file_name', 'string'],
-            ['md5', 'unique'],
+            ['file_name', 'string', 'length' => [3, 100]],
+            ['md5', 'unique', 'message' => 'File already exists.'],
         ];
     }
 
