@@ -12,8 +12,8 @@ $(document).ready(function(){
 	if($('#batchMediaDelete').length){
 		$('#batchMediaDelete').on('click',function(event) {
 			event.preventDefault();
-			if(confirm('Are you sure you want to delete these items?')){
-			    var keys = $('#mediaGrid').yiiGridView('getSelectedRows');
+			var keys = $('#mediaGrid').yiiGridView('getSelectedRows');
+			if(keys.length && confirm('Are you sure you want to delete these items?')){
 			    $.post({
 			       url: 'index.php?r=media/batch-delete',
 			       dataType: 'json',
