@@ -6,6 +6,8 @@ use app\models\Lookup;
 use dosamigos\tinymce\TinyMce;
 use yii\bootstrap\Modal;
 use yii\web\JsExpression;
+use yii\helpers\Url;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Post */
@@ -14,12 +16,16 @@ use yii\web\JsExpression;
 $this->registerJsFile('@web/js/main.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
 
-<div class="post-form">
-
-    <?php $form = ActiveForm::begin(); ?>
+<div class="post-form-wrap">
+	
+    <?php $form = ActiveForm::begin(['id' => 'post-form', 'options' => ['data-pjax' => true]]); ?>
 
     <?= $form->field($model, 'title')->textarea(['rows' => 1]) ?>
-
+        
+    <div class="permalink-box">
+    	<strong>Постоянная ссылка: </strong><?= Html::tag('span', Url::to(['post/view', 'slug' => $model->slug], true), ['id' => 'permalink']) ?>
+    </div>
+    
 	<?= $form->field($model, 'content')->widget(TinyMce::className(), [
 	    'options' => ['rows' => 16],
 	    'language' => 'ru',
@@ -38,7 +44,7 @@ $this->registerJsFile('@web/js/main.js', ['depends' => [\yii\web\JqueryAsset::cl
     <?= $form->field($model, 'status_code')->dropDownList(Lookup::items('PostStatus')) ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

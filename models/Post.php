@@ -43,6 +43,7 @@ class Post extends \yii\db\ActiveRecord
 			    'attribute' => 'title',
 			    'slugAttribute' => 'slug',
 			    'ensureUnique' => true,
+			    'immutable' => true,
 		    ]
 	    ];
     }
@@ -53,8 +54,8 @@ class Post extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'content', 'status_code', 'author_id'], 'required'],
-            ['title', 'string', 'length' => [2, 128]],
+            [['title', 'status_code', 'author_id'], 'required'],
+            ['title', 'string', 'length' => [3, 128]],
             ['status_code', 'in', 'range' => [1,2,3]],
             [['title', 'status', 'author'], 'safe'],
         ];
@@ -93,7 +94,7 @@ class Post extends \yii\db\ActiveRecord
     
     public function getUrl()
     {
-	    return Url::to(['post/view', 'title' => $this->title]);
+	    return Url::to(['post/view', 'slug' => $this->slug], true);
     }
     
     public function beforeValidate()

@@ -9,6 +9,28 @@ function mediaSelectModal(link){
 
 $(document).ready(function(){
 	
+	$('.post-create .permalink-box').hide();
+		
+	$('#post-title').on('blur', function(event){
+		var form = $('#post-form');
+		var formData = new FormData(form[0]);
+		if(!form.find('.has-error').length){
+			$.post({
+				url: 'index.php?r=post/get-link',
+				data: formData,
+				cache: false,
+				processData: false,
+				contentType: false,
+				success: function(link){
+					$('#permalink').text(link);
+					$('.permalink-box').show();
+// 					$('.post-create #post-title').off('blur');
+				}
+			});
+			
+		}
+	});
+	
 	if($('#batchMediaDelete').length){
 		$('#batchMediaDelete').on('click',function(event) {
 			event.preventDefault();
