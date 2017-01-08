@@ -135,12 +135,14 @@ class PostController extends Controller
     public function actionCreate()
     {
         $model = new Post();
+		$uploadModel = new UploadForm();
 		
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
         	return $this->redirect(['manage']);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'uploadModel' => $uploadModel,
             ]);
         }
     }
