@@ -18,14 +18,23 @@ $this->registerJsFile('@web/js/main.js', ['depends' => [\yii\web\JqueryAsset::cl
 
 <div class="post-form-wrap">
 	
-    <?php $form = ActiveForm::begin(['id' => 'post-form', 'options' => ['data-pjax' => true]]); ?>
-
+	
+    <?php $form = ActiveForm::begin(['id' => 'post-form', 'options' => ['data-pjax' => false]]); ?>
+    
     <?= $form->field($model, 'title')->textarea(['rows' => 1]) ?>
+
+	<?php Pjax::begin(['id' => 'permalink-pjax']) ?>
         
+    <?php if(!$model->isNewRecord) : ?>
+    
     <div class="permalink-box">
     	<strong>Постоянная ссылка: </strong><?= Html::tag('span', Url::to(['post/view', 'slug' => $model->slug], true), ['id' => 'permalink']) ?>
     </div>
     
+    <?php endif; ?>
+    
+	<?php Pjax::end() ?>
+
 	<?= $form->field($model, 'content')->widget(TinyMce::className(), [
 	    'options' => ['rows' => 16],
 	    'language' => 'ru',
@@ -36,7 +45,8 @@ $this->registerJsFile('@web/js/main.js', ['depends' => [\yii\web\JqueryAsset::cl
 	        'menubar' => false,
 	        'toolbar' => "undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist | paste link image | pagebreak | code",
 	        'image_dimensions' => false,
-	        'file_browser_callback' => new JsExpression('mediaBrowser.init')
+	        'file_browser_callback' => new JsExpression('mediaBrowser.init'),
+	        'init_instance_callback' => 'tinyMceInitInstance'
 	    ]
 	    
 	]);?>
@@ -48,6 +58,7 @@ $this->registerJsFile('@web/js/main.js', ['depends' => [\yii\web\JqueryAsset::cl
     </div>
 
     <?php ActiveForm::end(); ?>
+
 
 </div>
 

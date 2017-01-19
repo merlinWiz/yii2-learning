@@ -6,30 +6,38 @@ function mediaSelectModal(link){
 	$('#mediaModal').modal('hide');
 }
 
+function postSaveDraft(){
+	var form = $('#post-form');
+	var formData = new FormData(form[0]);
+	if(!form.find('.has-error').length){
+		$.post({
+			url: saveDraftUrl + (postID ? '&id=' + postID : ''),
+			data: formData,
+			cache: false,
+			processData: false,
+			contentType: false,
+			success: function(data){
+				if(data.status === 'success'){
+					postID = data.postID;
+					$.pjax({url: 'index.php?r=post/create&id=' + postID, container: '#permalink-pjax', push: true});
+				}
+			}
+		});
+		
+	}
+}
+
+function tinyMceInitInstance(editor){
+	editor.on('blur', postSaveDraft);
+}
+
+var saveDraftUrl = 'index.php?r=post/save-draft';
+var postID;
 
 $(document).ready(function(){
 	
-	$('.post-create .permalink-box').hide();
 		
-	$('#post-title').on('blur', function(event){
-		var form = $('#post-form');
-		var formData = new FormData(form[0]);
-		if(!form.find('.has-error').length){
-			$.post({
-				url: 'index.php?r=post/get-link',
-				data: formData,
-				cache: false,
-				processData: false,
-				contentType: false,
-				success: function(link){
-					$('#permalink').text(link);
-					$('.permalink-box').show();
-// 					$('.post-create #post-title').off('blur');
-				}
-			});
-			
-		}
-	});
+	$('#post-form .form-control').on('blur', postSaveDraft);
 	
 	$('#batchMediaDelete').on('click',function(event) {
 		event.preventDefault();

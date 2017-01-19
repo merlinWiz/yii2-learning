@@ -11,6 +11,7 @@ use yii\data\ActiveDataProvider;
 use app\models\Post;
 use app\models\PostSearch;
 use app\models\UploadForm;
+use yii\web\Response;
 
 /**
  * PostController implements the CRUD actions for Post model.
@@ -132,31 +133,51 @@ class PostController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id = null)
     {
-        $model = new Post();
+	    if($id){
+		    $model = $this->findModel($id);
+	    } else {
+	        $model = new Post();
+	    }
+	    
+	    $request = Yii::$app->request;
+		$post = $request->post();
 		$uploadModel = new UploadForm();
 		
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-        	return $this->redirect(['update',
-                'id' => $model->id,
-            ]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-                'uploadModel' => $uploadModel,
-            ]);
-        }
-    }
+	    if ($model->load($post) && $model->save()) {
+	    	return $this->redirect(['update',
+	            'id' => $model->id,
+	        ]);
+	    } else {
+	        return $this->render('create', [
+	            'model' => $model,
+	            'uploadModel' => $uploadModel,
+	        ]);
+	    }
+	}
     
-    public function actionGetLink()
+    public function actionSaveDraft($id = null)
     {
-        $model = new Post();
-        $model->load(Yii::$app->request->post());
-        $model->status_code = 1;
-        
-        if ($model->validate()) {
-	    	return $model->getUrl();
+	    $request = Yii::$app->request;
+	    
+	    if($request->isAjax && $request->isPost){
+		    if($id){
+		    	$model = $this->findModel($id);
+		    } else {
+		        $model = new Post();
+		    }
+	        $model->load($request->post());
+	        $model->status_code = 1;
+	        	        
+	        Yii::$app->response->format = Response::FORMAT_JSON;
+	        
+	        if($model->save()){
+		        return ['status' => 'success', 'postID' => $model->id];
+	        } else {
+		        return ['status' => 'error'];
+	        }
+	        
 	    }
     }
 
